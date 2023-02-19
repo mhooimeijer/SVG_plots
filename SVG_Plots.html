@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>SVG Plots</title>
+</head>
+<body>
+
+<svg viewBox="0 0 500 500" xmlns="http://www.w3.org/2000/svg">
+    <!-- Simple rectangle -->
+    <rect x="50" y="50" width="400" height="400" rx="15" stroke="black" fill="none"/>
+    <!-- move the origin to the center of the plot -->
+    <!-- band with: 50 -->
+    <g transform="translate(250, 250)">
+        <path d="M -50 0  A 49 49 0 0 1 50 0 L 100 0 A 49 49 0 0 0 -100 0 Z" stroke="black" fill="transparent"/>
+        <path d="M -50 0  A 49 49 0 0 0 0 50 L 0 100 A 99 99 0 0 1 -100 0 Z" stroke="red" fill="transparent"/>
+    </g>
+</svg>
+
+</body>
+</html>
