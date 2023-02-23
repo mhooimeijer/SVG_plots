@@ -1,0 +1,115 @@
+ classes/TrustScore/Controller/FrontEnd/AbstractWorkflowController.php                                        |   3 +-
+ classes/TrustScore/Controller/FrontEnd/CertificateSignOffController.php                                      |   3 +-
+ classes/TrustScore/Controller/FrontEnd/Companies/ImproveCompanyScoreController.php                           |   1 +
+ classes/TrustScore/Controller/FrontEnd/Companies/ManageCompanySectorAssociationsController.php               |  56 +++++++++
+ classes/TrustScore/Controller/FrontEnd/Companies/ManageCompanySectorsController.php                          |   2 +-
+ classes/TrustScore/Controller/FrontEnd/Companies/PurchaseSignoffController.php                               | 141 ++++++++++++++++++++++
+ classes/TrustScore/Controller/FrontEnd/Sectors/ManageSectorCertificatesController.php                        |   2 +-
+ classes/TrustScore/Controller/FrontEnd/Sectors/SectorDashboardController.php                                 |   4 +-
+ classes/TrustScore/HTML/ColumnFormatters/ButtonFormatter.php                                                 |  29 +++--
+ classes/TrustScore/HTML/ColumnFormatters/SectorScoreFormatter.php                                            |  31 +++++
+ classes/TrustScore/HTML/Form/CheckboxFormElement.php                                                         |  16 ++-
+ classes/TrustScore/Model/Certificate.php                                                                     |   2 +-
+ classes/TrustScore/Model/Certifier.php                                                                       |   8 ++
+ classes/TrustScore/Model/Company.php                                                                         | 296 +++++++++++++++++++++++++++--------------------
+ classes/TrustScore/Model/Regulator.php                                                                       |  24 ++++
+ classes/TrustScore/Model/Sector.php                                                                          |  12 +-
+ classes/TrustScore/Router/Router.php                                                                         |  36 +++++-
+ classes/TrustScore/View/AbstractWorkflowStepView.php                                                         |  35 +++++-
+ classes/TrustScore/View/Certificates/CertificateSignOffView.php                                              |  28 ++++-
+ classes/TrustScore/View/Companies/AbstractCompanyView.php                                                    |  12 +-
+ classes/TrustScore/View/Companies/CompaniesCertificatesSignoffsView.php                                      |  33 ++++--
+ classes/TrustScore/View/Companies/CompanyViewHelpers.php                                                     |  92 ++++++++-------
+ classes/TrustScore/View/Companies/ManageCompanyDetailsView.php                                               |  29 ++++-
+ classes/TrustScore/View/Companies/ManageCompanySectorAssociationsView.php                                    | 223 +++++++++++++++++++++++++++++++++++
+ classes/TrustScore/View/Companies/ManageCompanySectorsView.php                                               | 124 ++++++++++++++++----
+ classes/TrustScore/View/Companies/ManageCompanyUsersView.php                                                 |   6 +-
+ classes/TrustScore/View/Companies/RegisterCompanyDetailsStepView.php                                         |   2 -
+ classes/TrustScore/View/Companies/ShowCompanySectorAssociationsView.php                                      | 103 +++++++++++++++++
+ classes/TrustScore/View/Companies/SignOffPackageBeneficiaryStepView.php                                      | 161 ++++++++++++++++++++++++++
+ classes/TrustScore/View/Companies/SignOffPackageCompleteStepView.php                                         |  39 +++++++
+ classes/TrustScore/View/Companies/SignOffPackagePaymentStepView.php                                          | 117 +++++++++++++++++++
+ classes/TrustScore/View/Companies/SignOffPackageSizeStepView.php                                             |  88 ++++++++++++++
+ classes/TrustScore/View/Sectors/ManageCertificatesView.php                                                   | 114 ++----------------
+ classes/TrustScore/View/Sectors/SectorDashboardView.php                                                      | 145 +++++++++++++----------
+ classes/TrustScore/View/Sectors/SectorViewHelpers.php                                                        | 116 +++++++++++++++++++
+ classes/TrustScore/View/Sectors/ShowSectorCertificatesView.php                                               | 101 ++++++++++++++++
+ public_html/api/sectors/getSectorCertificatesView.php                                                        | 123 ++++++++++++++++++++
+ public_html/css/trustscore.css                                                                               |  36 +++++-
+ public_html/images/business-man6.png                                                                         | Bin 0 -> 4698039 bytes
+ public_html/images/business-woman-clip-art-business-dc3e2b416d50b36a4744b56abd820f03.png                     | Bin 0 -> 18538 bytes
+ public_html/images/{businessperson-businessman-0baae9fe689398338c9de1731631aae6.png => business_man2.png}    | Bin
+ ...ainted-cartoon-business-man-sitting-on-a-chair-029d7f23cdc6c4d295544a5a04daa97a.png => business_man3.png} | Bin
+ public_html/images/business_man4.png                                                                         | Bin 0 -> 535620 bytes
+ public_html/images/business_man5.png                                                                         | Bin 0 -> 387848 bytes
+ public_html/images/business_man_anonymous.png                                                                | Bin 0 -> 182771 bytes
+ public_html/images/business_man_cartoon.png                                                                  | Bin 0 -> 3090768 bytes
+ public_html/images/business_man_cartoon2.png                                                                 | Bin 0 -> 222509 bytes
+ public_html/images/business_woman1.jpg                                                                       | Bin 0 -> 74429 bytes
+ ...ice-administrative-professionals-week-others-b16acf774e0b3c082fa904d800936c9e.png => business_woman2.png} | Bin
+ public_html/images/business_woman4.png                                                                       | Bin 0 -> 129883 bytes
+ public_html/images/business_woman_3.png                                                                      | Bin 0 -> 18538 bytes
+ public_html/images/business_woman_anonymous.png                                                              | Bin 0 -> 194404 bytes
+ public_html/images/money.png                                                                                 | Bin 0 -> 24103 bytes
+ ...muslim-stock-photography-illustration-islamists-69683f8845063eecfda8746a8ee35972.png => muslim_woman.png} | Bin
+ public_html/images/payment.png                                                                               | Bin 0 -> 25405 bytes
+ public_html/images/support_woman1.png                                                                        | Bin 0 -> 457390 bytes
+ public_html/images/tools_settings.png                                                                        | Bin 0 -> 46280 bytes
+ public_html/js/js_functions.js                                                                               |  53 +++++++--
+ public_html/js/modern_pie_chart.js                                                                           | 347 ++++++++++++++++++++++++++++++++++++++++++++-----------
+
+ scripts/changes/alter_companies_2023_01_04.sql                                                               |  17 ++-
+ scripts/changes/alter_companies_2023_02_16.sql                                                               |  12 ++
+ scripts/functions/fn_CalculateCompanyScoreBySectorJSON.sql                                                   |  20 ++--
+ scripts/functions/fn_CalculateCompanyScoreJSON.sql                                                           | 325 +++++++++++++++++++++++++--------------------------
+ scripts/functions/fn_CalculateSectorScoreJSON.sql                                                            |  76 ++++++++++++
+ scripts/procedures/sp_CompanyRemoveSector.sql                                                                |   3 +-
+ scripts/procedures/sp_CompanyRemoveSectorAssociation.sql                                                     |  24 ++++
+ scripts/procedures/sp_GetCompanyScoreTimeLine.sql                                                            |   4 +-
+ scripts/tables/companies.sql                                                                                 |   5 +
+ scripts/tables/companies_sectors_association.sql                                                             |  36 ++++++
+ scripts/views/v_companies_sectors.sql                                                                        |  20 +++-
+ scripts/views/v_companies_sectors_association.sql                                                            |  39 +++++++
+ scripts/views/v_companies_sectors_association_scores.sql                                                     |  40 +++++++
+ scripts/views/v_companies_sectors_scores.sql                                                                 |  42 +++++++
+ 74 files changed, 2797 insertions(+), 661 deletions(-)
+ create mode 100644 classes/TrustScore/Controller/FrontEnd/Companies/ManageCompanySectorAssociationsController.php
+ create mode 100644 classes/TrustScore/Controller/FrontEnd/Companies/PurchaseSignoffController.php
+ create mode 100644 classes/TrustScore/HTML/ColumnFormatters/SectorScoreFormatter.php
+ create mode 100644 classes/TrustScore/Model/Certifier.php
+ create mode 100644 classes/TrustScore/Model/Regulator.php
+ create mode 100644 classes/TrustScore/View/Companies/ManageCompanySectorAssociationsView.php
+ create mode 100644 classes/TrustScore/View/Companies/ShowCompanySectorAssociationsView.php
+ create mode 100644 classes/TrustScore/View/Companies/SignOffPackageBeneficiaryStepView.php
+ create mode 100644 classes/TrustScore/View/Companies/SignOffPackageCompleteStepView.php
+ create mode 100644 classes/TrustScore/View/Companies/SignOffPackagePaymentStepView.php
+ create mode 100644 classes/TrustScore/View/Companies/SignOffPackageSizeStepView.php
+ create mode 100644 classes/TrustScore/View/Sectors/SectorViewHelpers.php
+ create mode 100644 classes/TrustScore/View/Sectors/ShowSectorCertificatesView.php
+ create mode 100644 public_html/api/sectors/getSectorCertificatesView.php
+ create mode 100644 public_html/images/business-man6.png
+ create mode 100644 public_html/images/business-woman-clip-art-business-dc3e2b416d50b36a4744b56abd820f03.png
+ rename public_html/images/{businessperson-businessman-0baae9fe689398338c9de1731631aae6.png => business_man2.png} (100%)
+ rename public_html/images/{cartoon-character-businessperson-hand-painted-cartoon-business-man-sitting-on-a-chair-029d7f23cdc6c4d295544a5a04daa97a.png => business_man3.png} (100%)
+ create mode 100644 public_html/images/business_man4.png
+ create mode 100644 public_html/images/business_man5.png
+ create mode 100644 public_html/images/business_man_anonymous.png
+ create mode 100644 public_html/images/business_man_cartoon.png
+ create mode 100644 public_html/images/business_man_cartoon2.png
+ create mode 100644 public_html/images/business_woman1.jpg
+ rename public_html/images/{administrative-assistant-virtual-assistant-secretary-office-administrative-professionals-week-others-b16acf774e0b3c082fa904d800936c9e.png => business_woman2.png} (100%)
+ create mode 100644 public_html/images/business_woman4.png
+ create mode 100644 public_html/images/business_woman_3.png
+ create mode 100644 public_html/images/business_woman_anonymous.png
+ create mode 100644 public_html/images/money.png
+ rename public_html/images/{muslim-stock-photography-illustration-islamists-69683f8845063eecfda8746a8ee35972.png => muslim_woman.png} (100%)
+ create mode 100644 public_html/images/payment.png
+ create mode 100644 public_html/images/support_woman1.png
+ create mode 100644 public_html/images/tools_settings.png
+ create mode 100644 scripts/changes/alter_companies_2023_02_16.sql
+ create mode 100644 scripts/functions/fn_CalculateSectorScoreJSON.sql
+ create mode 100644 scripts/procedures/sp_CompanyRemoveSectorAssociation.sql
+ create mode 100644 scripts/tables/companies_sectors_association.sql
+ create mode 100644 scripts/views/v_companies_sectors_association.sql
+ create mode 100644 scripts/views/v_companies_sectors_association_scores.sql
+ create mode 100644 scripts/views/v_companies_sectors_scores.sql

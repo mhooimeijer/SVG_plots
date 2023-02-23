@@ -1,0 +1,687 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Line Plot</title>
+    <link href="https://fonts.googleapis.com/css?family=Abel" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
+          integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+    <style>
+        * {
+            font-family: Abel
+        }
+
+        .svg-chart-title {
+            font-family: Abel;
+            font-weight: bold;
+            font-size: large
+        }
+
+        .svg-legend-title .svg-axis-title {
+            font-family: Abel;
+            font-weight: bold;
+            font-size: smaller;
+            text-transform: capitalize
+        }
+
+        .svg-legend-entry {
+            font-family: Abel;
+            font-weight: bold;
+            font-size: x-small;
+            text-transform: capitalize
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+    <div class="row">
+        <div class="col-8" style="position: relative">
+
+            <svg viewBox="0 0 800 600" xmlns="http://www.w3.org/2000/svg" style="position: absolute;">
+                <!-- Simple rectangle -->
+                <g id="svg_plot" transform="translate(0, 0)">
+                    <g id="svg_plot_top_bar">
+                        <rect x="0" y="0" width="100%" height="50" rx="0" stroke="none" fill="black"/>
+                    </g>
+                    <g id="svg_plot_bottom_bar">
+                        <rect x="0" y="550" width="100%" height="50" rx="0" stroke="none" fill="black"/>
+                    </g>
+                    <!-- move the origin to the center of the plot -->
+                    <!-- band with: 50 -->
+                    <g id="svg_chart_title" transform="translate(50, 0)">
+                        <rect x="0" y="0" width="600" height="50" rx="0" stroke="none" fill="none"/>
+                        <text class="svg-chart-title" text-anchor="middle" x="40%" y="35">Chart Title</text>
+                    </g>
+
+                    <g id="svg_legend" transform="translate(650, 50)">
+                        <rect x="0" y="0" width="200" height="500" rx="0" stroke="none" fill="none"/>
+                        <text class="svg-legend-title" text-anchor="left" x="5" y="20">Legend Title</text>
+                    </g>
+                    <g id="svg_plot_vertical_axis" transform="translate(0, 50)">
+                        <rect x="0" y="0" width="50" height="500" rx="0" stroke="none" fill="none"/>
+                        <text id="svg_plot_vertical_axis_title" class="svg-axis-title" text-anchor="middle" x="0"
+                              y="15"
+                              transform="translate(0,250) rotate(270)">Vertical Axis Title
+                        </text>
+                    </g>
+                    <g id="svg_plot_horizontal_axis" transform="translate(50, 550)">
+                        <rect x="0" y="0" width="600" height="50" rx="0" stroke="none" fill="none"/>
+                        <text id="svg_plot_horizontal_axis_title" class="svg-axis-title" text-anchor="middle"
+                              x="300" y="45">
+                            Horizontal Axis Title
+                        </text>
+                    </g>
+
+                    <g id="svg_plot_chart_area" transform="translate(50, 50)">
+                        <rect x="0" y="0" width="600" height="500" rx="0" stroke="none" fill="none"/>
+                        <g id="svg_plot_chart_areas_gridlines"></g>
+                        <g id="svg_plot_chart_areas_data_series"></g>
+                    </g>
+                </g>
+            </svg>
+        </div>
+        <div class="col-4">
+            <button class="btn btn-primary" onclick="chart.hideLegend();">Hide Legend</button>
+            <button class="btn btn-primary" onclick="chart.showLegend();">Show Legend</button>
+            <button class="btn btn-primary" onclick="chart.hideChartTitle();">Hide Title</button>
+            <button class="btn btn-primary" onclick="chart.showChartTitle();">Show Title</button>
+            <button class="btn btn-primary" onclick="chart.hideXAxis();">Hide X Axis</button>
+            <button class="btn btn-primary" onclick="chart.showXAxis();">Show XAxis</button>
+            <button class="btn btn-primary" onclick="chart.hideYAxis();">Hide YAxis</button>
+            <button class="btn btn-primary" onclick="chart.showYAxis();">Show YAxis</button>
+            <button class="btn btn-primary" onclick="changeChartSize();">Change Chart Size</button>
+            <button class="btn btn-primary" onclick="chart.setPlotAreaSquare();">Square Plot Area</button>
+        </div>
+    </div>
+
+</div>
+
+<script>
+    class SVGChart {
+        constructor(width, height, options = {}) {
+            this.chart_width = width;
+            this.chart_height = height;
+            this.element_id = "svg_plot";
+            this.default_chart_title_height = 50;
+            this.default_x_axis_height = 50;
+            this.default_y_axis_width = 50;
+            this.default_legend_width = 150;
+            this.default_point_size = 4; // this is the diameter of the circle of the point
+            // initialize the areas
+            this.top_bar = {
+                fill: 'none',
+                element_id: "svg_plot_top_bar"
+            }
+            this.bottom_bar = {
+                fill: 'none',
+                element_id: "svg_plot_bottom_bar"
+            }
+
+            // chart title
+            this.chart_title = {
+                fill: 'none',
+                text: 'Chart Title',
+                element_id: "svg_chart_title"
+            };
+
+            // initialize default gridlines for axes
+            this.x_axis = {
+                grid_lines: {
+                    major: {
+                        num: 2,
+                        show: true,
+                        show_ticks: true,
+                        tick_size: 4,
+                        stroke: 'white',
+                        stroke_width: 2,
+                        stroke_dasharray: 'none'
+                    },
+                    element_id: 'svg_plot_chart_areas_gridlines',
+                },
+                fill: 'none',
+                element_id: "svg_plot_horizontal_axis",
+                title: "Y-axis title"
+            };
+            this.x_axis.grid_lines.minor = {...this.x_axis.grid_lines.major};
+            this.x_axis.grid_lines.minor.num_per_major = 4;
+            this.x_axis.grid_lines.minor.num = (this.x_axis.grid_lines.major.num + 1) * this.x_axis.grid_lines.minor.num_per_major - 1;
+            this.x_axis.grid_lines.minor.stroke_width = 1;
+            this.x_axis.grid_lines.minor.stroke = "black";
+            this.x_axis.grid_lines.minor.stroke_dasharray = "4";
+
+            this.y_axis = {
+                grid_lines: {minor: {...this.x_axis.grid_lines.minor}, major: {...this.x_axis.grid_lines.major}},
+                fill: 'none',
+                title: "X-axis title",
+                element_id: "svg_plot_vertical_axis"
+            };
+            this.legend = {
+                fill: 'none',
+                element_id: "svg_legend",
+                title: {
+                    title: "Legend",
+                    element_id: "svg-legend-title"
+                }
+            };
+
+            this.plot_area = {
+                fill: 'lightgray',
+                element_id: 'svg_plot_chart_area',
+                data_series_element_id: 'svg_plot_chart_areas_data_series',
+                gridlines_element_id: 'svg_plot_chart_areas_gridlines'
+            };
+
+            this.data_series = []; // array of data series
+
+            this.updatePlotSettings(options);
+            this.lineTypes = {
+                line_only: 1,
+                points_only: 2,
+                line_with_points: 3
+            };
+        }
+
+        updateChartDimensions() {
+            // update chart dimensions based on configuration
+            // update the chart title
+            const chartTitleElem = document.getElementById(this.chart_title.element_id);
+            chartTitleElem.setAttribute("transform", "translate(" + this.chart_title.x.toString() + ", " + this.chart_title.y.toString() + ")");
+            const chartTitleRect = chartTitleElem.getElementsByTagName("rect")[0];
+            chartTitleRect.setAttribute("width", this.plot_area.width.toString());
+            chartTitleRect.setAttribute("height", this.chart_title.height.toString());
+
+            chartTitleRect.setAttribute('fill', this.chart_title.fill)
+            const chartTitleText = chartTitleElem.getElementsByTagName("text")[0];
+            chartTitleText.setAttribute("x", (0.5 * this.plot_area.width).toString());
+            if (this.chart_title.height === 0) {
+                chartTitleText.setAttribute("visibility", "hidden");
+            } else {
+                chartTitleText.setAttribute("visibility", "visible");
+            }
+
+            // update the top bar
+            const chartPlotTopBar = document.getElementById(this.top_bar.element_id);
+            const chartPlotTopBarRect = chartPlotTopBar.getElementsByTagName("rect")[0];
+            chartPlotTopBarRect.setAttribute("width", this.chart_width.toString());
+            chartPlotTopBarRect.setAttribute("height", this.chart_title.height.toString());
+            chartPlotTopBarRect.setAttribute("fill", this.top_bar.fill);
+
+            // update the bottom bar
+            const chartPlotBottomBar = document.getElementById(this.bottom_bar.element_id);
+            const chartPlotBottomBarRect = chartPlotBottomBar.getElementsByTagName("rect")[0];
+            chartPlotBottomBarRect.setAttribute("width", this.chart_width.toString());
+            chartPlotBottomBarRect.setAttribute("height", this.chart_title.height.toString());
+            chartPlotBottomBarRect.setAttribute("fill", this.bottom_bar.fill);
+
+            // update the chart plot area
+            const chartPlotArea = document.getElementById(this.plot_area.element_id);
+            chartPlotArea.setAttribute("transform", "translate(" + this.plot_area.x.toString() + ", " + this.plot_area.y.toString() + ")");
+            const chartPlotAreaRect = chartPlotArea.getElementsByTagName("rect")[0];
+            chartPlotAreaRect.setAttribute('fill', this.plot_area.fill)
+            chartPlotAreaRect.setAttribute("width", this.plot_area.width.toString());
+            chartPlotAreaRect.setAttribute("height", this.plot_area.height.toString());
+
+            // update the chart plot area
+            const chartXAxis = document.getElementById(this.x_axis.element_id);
+            chartXAxis.setAttribute("transform", "translate(" + this.x_axis.x.toString() + ", " + this.x_axis.y.toString() + ")");
+            const chartXAxisRect = chartXAxis.getElementsByTagName("rect")[0];
+            chartXAxisRect.setAttribute("width", this.x_axis.width.toString());
+            chartXAxisRect.setAttribute("height", this.x_axis.height.toString());
+            chartXAxisRect.setAttribute("fill", this.x_axis.fill);
+            const xAxisText = chartXAxis.getElementsByTagName("text")[0];
+            xAxisText.setAttribute("x", (0.5 * this.plot_area.width).toString());
+            if (this.x_axis.height === 0) {
+                xAxisText.setAttribute("visibility", "hidden");
+            } else {
+                xAxisText.setAttribute("visibility", "visible");
+            }
+
+            // update the chart plot area
+            const chartYAxis = document.getElementById(this.y_axis.element_id);
+            chartYAxis.setAttribute("transform", "translate(" + this.y_axis.x.toString() + ", " + this.y_axis.y.toString() + ")");
+            const chartYAxisRect = chartYAxis.getElementsByTagName("rect")[0];
+            chartYAxisRect.setAttribute("width", this.y_axis.width.toString());
+            chartYAxisRect.setAttribute("height", this.y_axis.height.toString());
+            chartYAxisRect.setAttribute("fill", this.y_axis.fill);
+
+            const yAxisText = chartYAxis.getElementsByTagName("text")[0];
+            yAxisText.setAttribute("transform", "translate(0," + (this.plot_area.height / 2).toString() + ") rotate(270)");
+            if (this.y_axis.width === 0) {
+                yAxisText.setAttribute("visibility", "hidden");
+            } else {
+                yAxisText.setAttribute("visibility", "visible");
+            }
+
+            // update the chart legend area
+            const chartLegend = document.getElementById(this.legend.element_id);
+            chartLegend.setAttribute("transform", "translate(" + this.legend.x.toString() + ", " + this.legend.y.toString() + ")");
+            const chartLegendRect = chartLegend.getElementsByTagName("rect")[0];
+            chartLegendRect.setAttribute("width", this.legend.width.toString());
+            chartLegendRect.setAttribute("height", this.legend.height.toString());
+            chartLegendRect.setAttribute("fill", this.legend.fill);
+
+            // yAxisText.setAttribute("y", (0.5 * this.plot_area.height).toString());
+            const chartLegendText = chartLegend.getElementsByTagName("text")[0];
+
+            if (this.legend.width === 0) {
+                chartLegendText.setAttribute("visibility", "hidden");
+            } else {
+                chartLegendText.setAttribute("visibility", "visible");
+            }
+        }
+
+        plotGridlines() {
+            // this plot the grid lines and tick marks
+            const plotAreaGridLinesElem = document.getElementById('svg_plot_chart_areas_gridlines');
+            plotAreaGridLinesElem.innerHTML = '';
+
+            const x_major_gap_between_grid_lines = this.plot_area.width / (this.x_axis.grid_lines.major.num + 1);
+            const x_minor_gap_between_grid_lines = this.plot_area.width / (this.x_axis.grid_lines.minor.num + 1);
+            const y_major_gap_between_grid_lines = this.plot_area.height / (this.y_axis.grid_lines.major.num + 1);
+            const y_minor_gap_between_grid_lines = this.plot_area.height / (this.y_axis.grid_lines.minor.num + 1);
+
+            // plot minor tick sized
+            // plot minor gridlines along the x-axis
+            if (this.x_axis.grid_lines.minor.show) {
+                for (let i = 0; i < this.x_axis.grid_lines.minor.num; i++) {
+                    const gridLine = document.createElementNS('http://www.w3.org/2000/svg', 'line');
+                    gridLine.setAttribute('stroke', this.x_axis.grid_lines.minor.stroke);
+                    gridLine.setAttribute('stroke-width', this.x_axis.grid_lines.minor.stroke_width);
+                    gridLine.setAttribute('stroke-dasharray', this.x_axis.grid_lines.minor.stroke_dasharray);
+                    gridLine.setAttribute("x1", (x_minor_gap_between_grid_lines * (i + 1)).toString());
+                    gridLine.setAttribute("y1", "0");
+                    gridLine.setAttribute("x2", (x_minor_gap_between_grid_lines * (i + 1)).toString());
+                    gridLine.setAttribute("y2", this.plot_area.height.toString());
+                    gridLine.classList.add("gridlines");
+                    plotAreaGridLinesElem.appendChild(gridLine);
+                }
+            }
+            // plot minor tick marks along the x-axis
+            if (this.x_axis.grid_lines.minor.show_ticks) {
+                for (let i = 0; i < this.x_axis.grid_lines.minor.num; i++) {
+                    const gridLine = document.createElementNS('http://www.w3.org/2000/svg', 'line');
+                    gridLine.setAttribute('stroke', this.x_axis.grid_lines.minor.stroke);
+                    gridLine.setAttribute('stroke-width', this.x_axis.grid_lines.minor.stroke_width);
+                    gridLine.setAttribute("x1", (x_minor_gap_between_grid_lines * (i + 1)).toString());
+                    gridLine.setAttribute("y1", this.plot_area.height.toString());
+                    gridLine.setAttribute("x2", (x_minor_gap_between_grid_lines * (i + 1)).toString());
+                    gridLine.setAttribute("y2", (this.plot_area.height + this.x_axis.grid_lines.minor.tick_size).toString());
+                    gridLine.classList.add("gridlines");
+                    plotAreaGridLinesElem.appendChild(gridLine);
+                }
+            }
+            // plot minor gridlines along the y-axis
+            if (this.y_axis.grid_lines.minor.show) {
+                for (let i = 0; i < this.y_axis.grid_lines.minor.num; i++) {
+                    const gridLine = document.createElementNS('http://www.w3.org/2000/svg', 'line');
+                    gridLine.setAttribute('stroke', this.y_axis.grid_lines.minor.stroke);
+                    gridLine.setAttribute('stroke-width', this.y_axis.grid_lines.minor.stroke_width);
+                    gridLine.setAttribute('stroke-dasharray', this.y_axis.grid_lines.minor.stroke_dasharray);
+                    gridLine.setAttribute("x1", "0");
+                    gridLine.setAttribute("y1", (y_minor_gap_between_grid_lines * (i + 1)).toString());
+                    gridLine.setAttribute("x2", this.plot_area.width.toString());
+                    gridLine.setAttribute("y2", (y_minor_gap_between_grid_lines * (i + 1)).toString());
+                    gridLine.classList.add("gridlines");
+                    plotAreaGridLinesElem.appendChild(gridLine);
+                }
+            }
+            // plot minor tick marks along the y-axis
+            if (this.y_axis.grid_lines.minor.show_ticks) {
+                for (let i = 0; i < this.x_axis.grid_lines.minor.num; i++) {
+                    const gridLine = document.createElementNS('http://www.w3.org/2000/svg', 'line');
+                    gridLine.setAttribute('stroke', this.x_axis.grid_lines.minor.stroke);
+                    gridLine.setAttribute('stroke-width', this.x_axis.grid_lines.minor.stroke_width);
+                    gridLine.setAttribute("x1", (-this.y_axis.grid_lines.minor.tick_size).toString());
+                    gridLine.setAttribute("y1", (y_minor_gap_between_grid_lines * (i + 1)).toString());
+                    gridLine.setAttribute("x2", "0");
+                    gridLine.setAttribute("y2", (y_minor_gap_between_grid_lines * (i + 1)).toString());
+                    gridLine.classList.add("gridlines");
+                    plotAreaGridLinesElem.appendChild(gridLine);
+                }
+            }
+
+            // plot major gridlines along the x-axis
+            if (this.x_axis.grid_lines.major.show) {
+                for (let i = 0; i < this.x_axis.grid_lines.major.num; i++) {
+                    const gridLine = document.createElementNS('http://www.w3.org/2000/svg', 'line');
+                    gridLine.setAttribute('stroke', this.x_axis.grid_lines.major.stroke);
+                    gridLine.setAttribute('stroke-width', this.x_axis.grid_lines.major.stroke_width);
+                    gridLine.setAttribute('stroke-dasharray', this.x_axis.grid_lines.major.stroke_dasharray);
+                    gridLine.setAttribute("x1", (x_major_gap_between_grid_lines * (i + 1)).toString());
+                    gridLine.setAttribute("y1", "0");
+                    gridLine.setAttribute("x2", (x_major_gap_between_grid_lines * (i + 1)).toString());
+                    gridLine.setAttribute("y2", this.plot_area.height.toString());
+                    gridLine.classList.add("gridlines");
+                    plotAreaGridLinesElem.appendChild(gridLine);
+                }
+            }
+            // draw major tick marks  on the x-axis
+            if (this.x_axis.grid_lines.major.show_ticks) {
+                for (let i = 0; i < this.x_axis.grid_lines.major.num; i++) {
+                    const gridLine = document.createElementNS('http://www.w3.org/2000/svg', 'line');
+                    gridLine.setAttribute('stroke', this.x_axis.grid_lines.major.stroke);
+                    gridLine.setAttribute('stroke-width', this.x_axis.grid_lines.major.stroke_width);
+                    gridLine.setAttribute("x1", (x_major_gap_between_grid_lines * (i + 1)).toString());
+                    gridLine.setAttribute("y1", this.plot_area.height.toString());
+                    gridLine.setAttribute("x2", (x_major_gap_between_grid_lines * (i + 1)).toString());
+                    gridLine.setAttribute("y2", (this.plot_area.height + this.x_axis.grid_lines.minor.tick_size).toString());
+                    gridLine.classList.add("gridlines");
+                    plotAreaGridLinesElem.appendChild(gridLine);
+                }
+            }
+            // draw major grid lines on the x-axis
+            if (this.y_axis.grid_lines.major.show) {
+                for (let i = 0; i < this.y_axis.grid_lines.major.num; i++) {
+                    const gridLine = document.createElementNS('http://www.w3.org/2000/svg', 'line');
+                    gridLine.setAttribute('stroke', this.y_axis.grid_lines.major.stroke);
+                    gridLine.setAttribute('stroke-width', this.y_axis.grid_lines.major.stroke_width);
+                    gridLine.setAttribute('stroke-dasharray', this.y_axis.grid_lines.major.stroke_dasharray);
+                    gridLine.setAttribute("y1", (y_major_gap_between_grid_lines * (i + 1)).toString());
+                    gridLine.setAttribute("x1", "0");
+                    gridLine.setAttribute("y2", (y_major_gap_between_grid_lines * (i + 1)).toString());
+                    gridLine.setAttribute("x2", this.plot_area.width.toString());
+                    gridLine.classList.add("gridlines");
+                    plotAreaGridLinesElem.appendChild(gridLine);
+                }
+            }
+            // draw major tick marks  on the y-axis
+            if (this.y_axis.grid_lines.major.show_ticks) {
+                for (let i = 0; i < this.x_axis.grid_lines.major.num; i++) {
+                    const gridLine = document.createElementNS('http://www.w3.org/2000/svg', 'line');
+                    gridLine.setAttribute('stroke', this.y_axis.grid_lines.major.stroke);
+                    gridLine.setAttribute('stroke-width', this.y_axis.grid_lines.major.stroke_width);
+                    gridLine.setAttribute("x1", (-this.y_axis.grid_lines.major.tick_size).toString());
+                    gridLine.setAttribute("y1", (y_major_gap_between_grid_lines * (i + 1)).toString());
+                    gridLine.setAttribute("x2", "0");
+                    gridLine.setAttribute("y2", (y_major_gap_between_grid_lines * (i + 1)).toString());
+                    gridLine.classList.add("gridlines");
+                    plotAreaGridLinesElem.appendChild(gridLine);
+
+
+                }
+            }
+
+
+            for (let i = 0; i < this.y_axis.grid_lines.major.num + 2; i++) {
+                const tickText = document.createElementNS('http://www.w3.org/2000/svg', 'text');
+                tickText.setAttribute("x", (-7).toString());
+                tickText.setAttribute("y", (y_major_gap_between_grid_lines * (i )).toString());
+                tickText.setAttribute("text-anchor", 'end');
+                tickText.classList.add('svg-tick-mark-label');
+                const tick_value = this.x_axis.min_value + (this.y_axis.grid_lines.major.num - i + 1) * (this.x_axis.max_value - this.x_axis.min_value);
+                tickText.innerHTML = tick_value;
+                plotAreaGridLinesElem.appendChild(tickText);
+            }
+            for (let i = 0; i < this.x_axis.grid_lines.major.num + 2; i++) {
+                const tickText = document.createElementNS('http://www.w3.org/2000/svg', 'text');
+
+                tickText.setAttribute("x", (x_major_gap_between_grid_lines * (i)).toString());
+                tickText.setAttribute("y", (this.plot_area.height + 25).toString());
+                tickText.setAttribute("text-anchor", 'middle');
+                tickText.classList.add('svg-tick-mark-label');
+                const tick_value = this.x_axis.min_value + (i ) * (this.x_axis.max_value - this.x_axis.min_value);
+                tickText.innerHTML = tick_value;
+                plotAreaGridLinesElem.appendChild(tickText);
+            }
+        }
+
+        plotDataSeries() {
+            // remove previous data series
+            const dataSeriesElement = document.getElementById(this.plot_area.data_series_element_id);
+            dataSeriesElement.innerHTML = '';
+            this.data_series.forEach((series, index) => {
+                // add legend entry
+                let last_point = null;
+                series.points.forEach((point, point_index) => {
+                    if (series.line_type == this.lineTypes.line_with_points || series.line_type == this.lineTypes.line_only) {
+                        if (last_point !== null){
+                            const lineElem = document.createElementNS('http://www.w3.org/2000/svg', 'line');
+                            lineElem.setAttribute('x1', this.getXCoordinate(last_point.x));
+                            lineElem.setAttribute('y1', this.getYCoordinate(last_point.y));
+                            lineElem.setAttribute('x2', this.getXCoordinate(point.x));
+                            lineElem.setAttribute('y2', this.getYCoordinate(point.y));
+                            lineElem.setAttribute('stroke', series.line_stroke);
+                            lineElem.setAttribute('stroke-width', series.line_stroke_width.toString());
+                            dataSeriesElement.appendChild(lineElem);
+                        }
+                    }
+
+                    last_point = point;
+                });
+                series.points.forEach((point, point_index) => {
+
+                    if (series.line_type == this.lineTypes.line_with_points || series.line_type == this.lineTypes.points_only) {
+                        const pointElem = document.createElementNS('http://www.w3.org/2000/svg', 'circle');
+                        pointElem.setAttribute('r', (series.point_size).toString());
+                        pointElem.setAttribute('stroke', series.point_stroke);
+                        pointElem.setAttribute('stroke_width', series.point_stroke_width);
+                        pointElem.setAttribute('fill', series.point_fill);
+                        pointElem.setAttribute('cx', this.getXCoordinate(point.x));
+                        pointElem.setAttribute('cy', this.getYCoordinate(point.y));
+                        dataSeriesElement.appendChild(pointElem);
+                    }
+                    last_point = point;
+                });
+
+                // convert x to chart coordinates
+                // convert y to chart coordinates
+            });
+        }
+
+        getXCoordinate(x_value) {
+            return x_value * this.plot_area.width / (this.x_axis.max_value - this.x_axis.min_value);
+        }
+
+        getYCoordinate(y_value) {
+            return this.plot_area.height - y_value * this.plot_area.height / (this.y_axis.max_value - this.y_axis.min_value);
+        }
+
+        plotChart() {
+            this.updateChartDimensions();
+            this.plotGridlines();
+            this.plotDataSeries();
+        }
+
+        /**
+         * Expecting a data_series in the following format
+         * {
+         *      name: 'Data Series Name', // used in the legend for example
+         *      type: 'line||points
+         *      points: [
+         *          {x: 'x_value', y: 'y_value', label: 'Optional Label for point', onclick: 'Optional onclick function', details: {optional_object with more details}}
+         *      ]
+         *
+         * }
+         * @param series
+         */
+        addDataSeries(line_type, data) {
+            data.max_y_value = Math.max(...data.points.map(o => o.y));
+            data.min_y_value = Math.min(...data.points.map(o => o.y));
+            data.max_x_value = Math.max(...data.points.map(o => o.y));
+            data.min_x_value = Math.min(...data.points.map(o => o.y));
+            data.line_type = line_type;
+
+            if (!this.x_axis.hasOwnProperty("max_value") || this.x_axis.max_value < data.max_x_value) {
+                this.x_axis.max_value = data.max_x_value;
+            }
+            if (!this.x_axis.hasOwnProperty("min_value") || this.x_axis.min_value < data.min_x_value) {
+                this.x_axis.min_value = data.min_x_value;
+            }
+            if (!this.y_axis.hasOwnProperty("max_value") || this.y_axis.max_value < data.max_y_value) {
+                this.y_axis.max_value = data.max_y_value;
+            }
+            if (!this.y_axis.hasOwnProperty("min_value") || this.y_axis.min_value < data.min_y_value) {
+                this.y_axis.min_value = data.min_y_value;
+            }
+
+            if (line_type === this.lineTypes.points_only || line_type === this.lineTypes.line_with_points) {
+                data.point_size = data.hasOwnProperty('point_size') ? data.point_size : this.default_point_size;
+                data.point_fill = data.hasOwnProperty('point_fill') ? data.point_fill : getColorByIndex(this.data_series.length);
+                data.point_stroke = data.hasOwnProperty('point_stroke') ? data.point_stroke : 'black';
+                data.point_stroke_width = data.hasOwnProperty('point_stroke_width') ? data.point_stroke_width : "1";
+            } else {
+                data.point_size = 0;
+            }
+            if (line_type === this.lineTypes.line_only || line_type === this.lineTypes.line_with_points) {
+                data.line_stroke = data.hasOwnProperty('line_stroke') ? data.line_stroke : 'black';
+                // console.log(data.line_stroke_width);
+                data.line_stroke_width = data.hasOwnProperty('line_stroke_width') ? data.line_stroke_width : "1";
+                // console.log(data.line_stroke_width);
+
+            } else {
+                data.point_size = 0;
+            }
+            this.data_series.push(data);
+            // console.log(this.data_series);
+        }
+
+        updatePlotSettings(options) {
+
+            // this function set the plot settings
+
+            this.chart_width = options.hasOwnProperty("chart_width") ? options.chart_width : this.chart_width;
+            this.chart_height = options.hasOwnProperty("chart_height") ? options.chart_height : this.chart_height;
+            const chart_title_height = options.hasOwnProperty("chart_title_height") ? options.chart_title_height :
+                (this.chart_title.hasOwnProperty("height") ? this.chart_title.height : this.default_chart_title_height);
+            const x_axis_height = options.hasOwnProperty("x_axis_height") ? options.x_axis_height :
+                (this.x_axis.hasOwnProperty("height") ? this.x_axis.height : this.default_x_axis_height);
+            const y_axis_width = options.hasOwnProperty("y_axis_width") ? options.y_axis_width :
+                (this.y_axis.hasOwnProperty("width") ? this.y_axis.width : this.default_y_axis_width);
+            const legend_width = options.hasOwnProperty("legend_width") ? options.legend_width :
+                (this.legend.hasOwnProperty("width") ? this.legend.width : this.default_legend_width);
+
+            const plot_area_width = this.chart_width - y_axis_width - legend_width;
+            const plot_area_height = this.chart_height - x_axis_height - chart_title_height;
+            /* define the 5 key blocks of the graph */
+            this.chart_title.x = y_axis_width;
+            this.chart_title.y = 0;
+            this.chart_title.height = chart_title_height;
+
+            this.x_axis.x = y_axis_width;
+            this.x_axis.y = chart_title_height + plot_area_height;
+            this.x_axis.width = this.chart_width - y_axis_width - legend_width;
+            this.x_axis.height = x_axis_height;
+
+            this.y_axis.x = 0;
+            this.y_axis.y = chart_title_height;
+            this.y_axis.width = y_axis_width;
+            this.y_axis.height = this.chart_height - chart_title_height - x_axis_height;
+
+            this.legend.x = y_axis_width + plot_area_width;
+            this.legend.y = chart_title_height;
+            this.legend.width = legend_width;
+            this.legend.height = this.chart_height - this.chart_title.height - this.x_axis.height;
+
+
+            this.plot_area.x = y_axis_width;
+            this.plot_area.y = chart_title_height;
+            this.plot_area.width = plot_area_width;
+            this.plot_area.height = plot_area_height;
+
+            this.plotChart();
+
+        }
+
+        hideLegend() {
+            // set the width of the legend to 0 ?? Where do we store the last value so
+            this.legend.previous_width = this.legend.width;
+            this.legend.width = 0;
+            this.updatePlotSettings({});
+        }
+
+        showLegend() {
+            if (this.legend.width === 0) {
+                this.legend.width = this.legend.hasOwnProperty("previous_width") ? this.legend.previous_width : this.default_legend_width;
+            }
+            this.updatePlotSettings({});
+        }
+
+        hideChartTitle() {
+            // set the width of the legend to 0 ?? Where do we store the last value so
+            this.chart_title.previous_height = this.chart_title.height;
+            this.chart_title.height = 0;
+            this.updatePlotSettings({});
+        }
+
+        showChartTitle() {
+            if (this.chart_title.height === 0) {
+                this.chart_title.height = this.legend.hasOwnProperty("previous_height") ? this.chart_title.previous_height : this.default_chart_title_height;
+            }
+            this.updatePlotSettings({});
+        }
+
+        hideXAxis() {
+            this.x_axis.previous_height = this.x_axis.height;
+            this.x_axis.height = 0;
+            this.updatePlotSettings({});
+        }
+
+        showXAxis() {
+            if (this.x_axis.height === 0) {
+                this.x_axis.height = this.x_axis.hasOwnProperty("previous_height") ? this.x_axis.previous_height : this.default_x_axis_height;
+            }
+            this.updatePlotSettings({});
+        }
+
+        hideYAxis() {
+            this.y_axis.previous_width = this.y_axis.width;
+            this.y_axis.width = 0;
+            this.updatePlotSettings({});
+        }
+
+        showYAxis() {
+            if (this.y_axis.width === 0) {
+                this.y_axis.width = this.y_axis.hasOwnProperty("previous_width") ? this.y_axis.previous_width : this.default_y_axis_width;
+            }
+            this.updatePlotSettings({});
+        }
+
+        setPlotAreaSquare() {
+            if (this.plot_area.height !== this.plot_area.width) {
+                if (this.plot_area.height < this.plot_area.width) {
+                    // adjust the legend to make it wider
+                    this.legend.width = this.legend.width + this.plot_area.width - this.plot_area.height;
+                } else {
+                    this.x_axis.height = this.legend.width + this.plot_area.height - this.plot_area.width;
+                }
+                this.updatePlotSettings({});
+            }
+        }
+    }
+
+    const chart = new SVGChart(800, 600);
+
+    // chart.chart_title.fill = "lightblue";
+    const data = {
+        name: 'Test Data',
+        point_size: 10,
+        point_fill: 'green',
+        point_stroke: 'black',
+        point_stroke_width: 1,
+        line_stroke: 'green',
+        line_stroke_width: 3,
+        points: [
+            {x: 0, y: 0},
+            {x: 10, y: 10},
+            {x: 20, y: 40},
+            {x: 30, y: 30},
+            {x: 40, y: 10}
+        ]
+    };
+    chart.addDataSeries(chart.lineTypes.line_with_points, data);
+    chart.plotChart();
+
+    function changeChartSize() {
+        chart.chart_height = 400;
+        chart.chart_width = 600;
+        chart.updatePlotSettings({})
+        // // console.log(chart);
+        // chart.hideLegend();
+    }
+
+</script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM"
+        crossorigin="anonymous"></script>
+</body>
+</html>
