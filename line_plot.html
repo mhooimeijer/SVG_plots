@@ -128,7 +128,7 @@
             this.x_axis = {
                 grid_lines: {
                     major: {
-                        num: 2,
+                        num: 3,
                         show: true,
                         show_ticks: true,
                         tick_size: 4,
@@ -271,6 +271,11 @@
         }
 
         plotGridlines() {
+
+            // determine the scale appropriate
+
+
+
             // this plot the grid lines and tick marks
             const plotAreaGridLinesElem = document.getElementById('svg_plot_chart_areas_gridlines');
             plotAreaGridLinesElem.innerHTML = '';
@@ -402,13 +407,14 @@
             }
 
 
+
             for (let i = 0; i < this.y_axis.grid_lines.major.num + 2; i++) {
                 const tickText = document.createElementNS('http://www.w3.org/2000/svg', 'text');
                 tickText.setAttribute("x", (-7).toString());
                 tickText.setAttribute("y", (y_major_gap_between_grid_lines * (i )).toString());
                 tickText.setAttribute("text-anchor", 'end');
                 tickText.classList.add('svg-tick-mark-label');
-                const tick_value = this.x_axis.min_value + (this.y_axis.grid_lines.major.num - i + 1) * (this.x_axis.max_value - this.x_axis.min_value);
+                const tick_value = this.y_axis.min_value + (this.y_axis.grid_lines.major.num - i + 1) * (this.y_axis.max_value - this.y_axis.min_value)/ (this.y_axis.grid_lines.major.num +1);
                 tickText.innerHTML = tick_value;
                 plotAreaGridLinesElem.appendChild(tickText);
             }
@@ -419,7 +425,9 @@
                 tickText.setAttribute("y", (this.plot_area.height + 25).toString());
                 tickText.setAttribute("text-anchor", 'middle');
                 tickText.classList.add('svg-tick-mark-label');
-                const tick_value = this.x_axis.min_value + (i ) * (this.x_axis.max_value - this.x_axis.min_value);
+
+
+                const tick_value = this.x_axis.min_value + (i ) * (this.x_axis.max_value - this.x_axis.min_value)/ (this.x_axis.grid_lines.major.num +1);
                 tickText.innerHTML = tick_value;
                 plotAreaGridLinesElem.appendChild(tickText);
             }
@@ -504,15 +512,27 @@
             if (!this.x_axis.hasOwnProperty("max_value") || this.x_axis.max_value < data.max_x_value) {
                 this.x_axis.max_value = data.max_x_value;
             }
-            if (!this.x_axis.hasOwnProperty("min_value") || this.x_axis.min_value < data.min_x_value) {
+            if (!this.x_axis.hasOwnProperty("min_value") || this.x_axis.min_value > data.min_x_value) {
                 this.x_axis.min_value = data.min_x_value;
             }
             if (!this.y_axis.hasOwnProperty("max_value") || this.y_axis.max_value < data.max_y_value) {
                 this.y_axis.max_value = data.max_y_value;
             }
-            if (!this.y_axis.hasOwnProperty("min_value") || this.y_axis.min_value < data.min_y_value) {
+            if (!this.y_axis.hasOwnProperty("min_value") || this.y_axis.min_value > data.min_y_value) {
                 this.y_axis.min_value = data.min_y_value;
             }
+
+            // below set the ideal
+            const x_range = this.x_axis.max_value-this.x_axis.min_value;
+            let factor = 10;
+            const x_delta_major_grid_lines = Math.ceil(x_range/(this.x_axis.grid_lines.major.num+1)/factor)*factor;
+            this.x_axis.max_value = (this.x_axis.grid_lines.major.num+1) * x_delta_major_grid_lines;
+            const y_range = this.y_axis.max_value-this.y_axis.min_value;
+            factor = 25;
+
+            console.log(y_range)
+            const y_delta_major_grid_lines = Math.ceil(y_range/(this.y_axis.grid_lines.major.num+1)/factor)*factor;
+            this.y_axis.max_value = (this.y_axis.grid_lines.major.num+1) * y_delta_major_grid_lines;
 
             if (line_type === this.lineTypes.points_only || line_type === this.lineTypes.line_with_points) {
                 data.point_size = data.hasOwnProperty('point_size') ? data.point_size : this.default_point_size;
@@ -650,6 +670,8 @@
     }
 
     const chart = new SVGChart(800, 600);
+    chart.y_axis.min_value = 0;
+    chart.y_axis.max_value = 100;
 
     // chart.chart_title.fill = "lightblue";
     const data = {
