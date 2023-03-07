@@ -1,11 +1,11 @@
 {
   "sectors": [
     {
-      "id": 1,
-      "name": "sector 1 name",
+      "sector_id": 1,
+      "sector_name": "sector 1 name",
       "parent_sector_id": 1,
       "parent_sector_name": "parent sector 1 name",
-      "score": [
+      "sector_score": [
         {
           "category_id": 0,
           "category": "Overall",
@@ -101,11 +101,11 @@
       "redflags": []
     },
     {
-      "id": 2,
-      "name": "sector 2 name",
+      "sector_id": 2,
+      "sector_name": "sector 2 name",
       "parent_sector_id": 1,
       "parent_sector_name": "parent sector 1 name",
-      "score": [
+      "sector_score": [
         {
           "category_id": 0,
           "category": "Overall",
@@ -201,11 +201,11 @@
       "redflags": []
     },
     {
-      "id": 3,
-      "name": "sector 3 name",
+      "sector_id": 3,
+      "sector_name": "sector 3 name",
       "parent_sector_id": 1,
       "parent_sector_name": "parent sector 1 name",
-      "score": [
+      "sector_score": [
         {
           "category_id": 0,
           "category": "Overall",
@@ -301,11 +301,11 @@
       "redflags": []
     },
     {
-      "id": 4,
-      "name": "sector 4 name",
+      "sector_id": 4,
+      "sector_name": "sector 4 name",
       "parent_sector_id": 2,
       "parent_sector_name": "parent sector 2 name",
-      "score": [
+      "sector_score": [
         {
           "category_id": 0,
           "category": "Overall",
@@ -401,11 +401,11 @@
       "redflags": []
     },
     {
-      "id": 5,
-      "name": "sector 5 name",
+      "sector_id": 5,
+      "sector_name": "sector 5 name",
       "parent_sector_id": 2,
       "parent_sector_name": "parent sector 2 name",
-      "score": [
+      "sector_score": [
         {
           "category_id": 0,
           "category": "Overall",
@@ -501,11 +501,11 @@
       "redflags": []
     },
     {
-      "id": 6,
-      "name": "sector 4 name",
+      "sector_id": 6,
+      "sector_name": "sector 4 name",
       "parent_sector_id": 2,
       "parent_sector_name": "parent sector 2 name",
-      "score": [
+      "sector_score": [
         {
           "category_id": 0,
           "category": "Overall",
@@ -601,11 +601,11 @@
       "redflags": []
     },
     {
-      "id": 7,
-      "name": "sector 5 name",
+      "sector_id": 7,
+      "sector_name": "sector 5 name",
       "parent_sector_id": 2,
       "parent_sector_name": "parent sector 2 name",
-      "score": [
+      "sector_score": [
         {
           "category_id": 0,
           "category": "Overall",
@@ -701,11 +701,11 @@
       "redflags": []
     },
     {
-      "id": 8,
-      "name": "sector 4 name",
+      "sector_id": 8,
+      "sector_name": "sector 4 name",
       "parent_sector_id": 2,
       "parent_sector_name": "parent sector 2 name",
-      "score": [
+      "sector_score": [
         {
           "category_id": 0,
           "category": "Overall",
@@ -801,11 +801,11 @@
       "redflags": []
     },
     {
-      "id": 9,
-      "name": "sector 9 name",
+      "sector_id": 9,
+      "sector_name": "sector 9 name",
       "parent_sector_id": 3,
       "parent_sector_name": "parent sector 3 name",
-      "score": [
+      "sector_score": [
         {
           "category_id": 0,
           "category": "Overall",
@@ -901,11 +901,11 @@
       "redflags": []
     },
     {
-      "id": 10,
-      "name": "sector 10 name",
+      "sector_id": 10,
+      "sector_name": "sector 10 name",
       "parent_sector_id": 3,
       "parent_sector_name": "parent sector 3 name",
-      "score": [
+      "sector_score": [
         {
           "category_id": 0,
           "category": "Overall",
@@ -1001,11 +1001,11 @@
       "redflags": []
     },
     {
-      "id": 11,
-      "name": "sector 12 name",
+      "sector_id": 11,
+      "sector_name": "sector 12 name",
       "parent_sector_id": 3,
       "parent_sector_name": "parent sector 3 name",
-      "score": [
+      "sector_score": [
         {
           "category_id": 0,
           "category": "Overall",
@@ -1101,11 +1101,11 @@
       "redflags": []
     },
     {
-      "id": 4,
-      "name": "sector 4 name",
+      "sector_id": 4,
+      "sector_name": "sector 4 name",
       "parent_sector_id": 2,
       "parent_sector_name": "parent sector 2 name",
-      "score": [
+      "sector_score": [
         {
           "category_id": 0,
           "category": "Overall",
@@ -1201,11 +1201,11 @@
       "redflags": []
     },
     {
-      "id": 5,
-      "name": "sector 5 name",
+      "sector_id": 5,
+      "sector_name": "sector 5 name",
       "parent_sector_id": 2,
       "parent_sector_name": "parent sector 2 name",
-      "score": [
+      "sector_score": [
         {
           "category_id": 0,
           "category": "Overall",
@@ -1301,11 +1301,11 @@
       "redflags": []
     },
     {
-      "id": 4,
-      "name": "sector 4 name",
+      "sector_id": 4,
+      "sector_name": "sector 4 name",
       "parent_sector_id": 2,
       "parent_sector_name": "parent sector 2 name",
-      "score": [
+      "sector_score": [
         {
           "category_id": 0,
           "category": "Overall",
@@ -1401,11 +1401,11 @@
       "redflags": []
     },
     {
-      "id": 5,
-      "name": "sector 5 name",
+      "sector_id": 5,
+      "sector_name": "sector 5 name",
       "parent_sector_id": 2,
       "parent_sector_name": "parent sector 2 name",
-      "score": [
+      "sector_score": [
         {
           "category_id": 0,
           "category": "Overall",
@@ -1501,11 +1501,11 @@
       "redflags": []
     },
     {
-      "id": 4,
-      "name": "sector 4 name",
+      "sector_id": 4,
+      "sector_name": "sector 4 name",
       "parent_sector_id": 2,
       "parent_sector_name": "parent sector 2 name",
-      "score": [
+      "sector_score": [
         {
           "category_id": 0,
           "category": "Overall",
@@ -1601,11 +1601,11 @@
       "redflags": []
     },
     {
-      "id": 5,
-      "name": "sector 5 name",
+      "sector_id": 5,
+      "sector_name": "sector 5 name",
       "parent_sector_id": 2,
       "parent_sector_name": "parent sector 2 name",
-      "score": [
+      "sector_score": [
         {
           "category_id": 0,
           "category": "Overall",
@@ -1701,11 +1701,11 @@
       "redflags": []
     },
     {
-      "id": 18,
-      "name": "sector 18 name",
+      "sector_id": 18,
+      "sector_name": "sector 18 name",
       "parent_sector_id": 4,
       "parent_sector_name": "parent sector 4 name",
-      "score": [
+      "sector_score": [
         {
           "category_id": 0,
           "category": "Overall",
@@ -1801,11 +1801,11 @@
       "redflags": []
     },
     {
-      "id": 19,
-      "name": "sector 19 name",
+      "sector_id": 19,
+      "sector_name": "sector 19 name",
       "parent_sector_id": 4,
       "parent_sector_name": "parent sector 4 name",
-      "score": [
+      "sector_score": [
         {
           "category_id": 0,
           "category": "Overall",
