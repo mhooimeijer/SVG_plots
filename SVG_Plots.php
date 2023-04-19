@@ -122,7 +122,7 @@ $bands10 = getSunBurstBands(10, $band_width, 150);
 
 
 <svg viewBox="0 0 750 375" xmlns="http://www.w3.org/2000/svg" width="1200px" height="600px">
-    <!-- Simple rectangle -->
+     Simple rectangle
     <rect x="2" y="2" width="90%" height="90%" rx="15" stroke="black" fill="none"/>
     <!-- move the origin to the center of the plot -->
     <!-- band with: 50 -->
@@ -502,7 +502,7 @@ $bands10 = getSunBurstBands(10, $band_width, 150);
             ]
             };
 
-            plotSectors(sectors);
+           // plotSectors(sectors);
         });
 
 
@@ -770,8 +770,20 @@ $bands10 = getSunBurstBands(10, $band_width, 150);
                 }
                 const start_angle = bandangle * i * scale + ((full || upper) ? 0 : 180);
                 let fill_color = fill_colors[Math.floor(Math.random() * fill_colors.length)];
-
-                const newPathElem = getSegmentPathElement(start_angle, bandangle, inner_circle_radius, bandwidth, fill_color, segment_stroke_color, segment_stroke_width);
+                const outer_segment_stroke_color = "white"
+                const outer_segment_stroke_width = 0
+                const outer_segment_width = 40
+                let segment_params = {
+                    start_angle: start_angle,
+                    segment_angle: bandangle,
+                    inner_circle_radius: inner_circle_radius,
+                    segment_width: bandwidth,
+                    fill_color: fill_color,
+                    segment_stroke_color: outer_segment_stroke_color,
+                    segment_stroke_width: outer_segment_stroke_width,
+                    animate: false
+                };
+                const newPathElem = getSegmentPathElement(segment_params);
                 groupElem.appendChild(newPathElem);
             }
         }
@@ -813,15 +825,15 @@ $bands10 = getSunBurstBands(10, $band_width, 150);
 
     const num_levels_inner = 3;
     const band_width_inner = 400 / 2 / (num_levels_inner + 2);
-    // getSunBurstBands(2, band_width_inner + 2, 4, true, true);
+    getSunBurstBands(1, band_width_inner + 2, 2, true, true);
     //
-    // const num_levels = 5;
-    // const band_width = 400 / 2 / (num_levels + 2);
-    // getSunBurstBands(1, band_width, 1, false, true);
-    // getSunBurstBands(2, band_width, 6, false, true);
-    // getSunBurstBands(3, band_width, 20, true, true);
-    // getSunBurstBands(4, band_width, 1, false, true);
-    // getSunBurstBands(5, band_width, 20, false, true);
+    //  const num_levels = 5;
+    //  const band_width = 400 / 2 / (num_levels + 2);
+    //  getSunBurstBands(1, band_width, 1, false, true);
+    //  getSunBurstBands(2, band_width, 6, false, true);
+    //  getSunBurstBands(3, band_width, 20, true, true);
+    //  getSunBurstBands(4, band_width, 1, false, true);
+    //  getSunBurstBands(5, band_width, 20, false, true);
     // getSunBurstBands(6, band_width, 19, false, true);
     // getSunBurstBands(7, band_width, 40, false, true);
     // getSunBurstBands(8, band_width, 20, false, true);
