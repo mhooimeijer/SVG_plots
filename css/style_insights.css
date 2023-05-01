@@ -2,11 +2,13 @@
     --clr-dark: #0f172a;
     --clr-light: #f1f5f9;
     --clr-accent: #e11d48;
-    --image-width: 300px;
+    --image-width: 400px;
     --image-height: 300px;
     --content-width: 400px;
     --content-height: 400px;
     --overlap: 30px;
+    --box-shadow-light: 0 0 5px 0 gray;
+    --box-shadow-heavy: 0 0 15px 0 gray;
 }
 *,
 *::before,
@@ -15,19 +17,16 @@
 }
 
 body {
-
-    /*margin: 5em 0 0 0;*/
-    /*padding: 0;*/
-    /*line-height: 1.6;*/
-    /*word-spacing: 1.4px;*/
-    font-family: 'Roboto', sans-serif;
-    /*color: var(--clr-dark);*/
-    /*background-color: var(--clr-light);*/
+    font-family: 'Abel', sans-serif;
 }
 .insight-container {
     /*border: 10px solid var(--clr-dark);*/
 }
-
+p {font-size: 1.2rem;}
+p.citation {font-size: 1rem}
+a {
+    text-decoration: none;
+}
 .insight-row {
     /*border: 10px solid green;*/
 }
@@ -47,6 +46,7 @@ body {
     display: grid;
     align-items: center;
     flex-grow: 1;
+    grid-auto-rows: 1fr;
 }
 .insight-row:nth-child(odd) {
     grid-template-columns: var(--image-width) 1fr;
@@ -56,19 +56,40 @@ body {
 }
 
 .insight-content {
-    border-radius: 20px;
+    border-radius: 10px;
     background: white;
-    box-shadow: 0 0 15px 0 gray;
     min-width: var(--content-width);
     max-width: 800px;
+    box-shadow: var(--box-shadow-light);
 }
 
-.insight-content {
-    height: var(--content-height);
-    padding: 30px 30px 30px 60px;
-    z-index: -1;
-    flex-shrink: 0;
+img {
+    background: none;
+    width: 100%;
+    height: max-content;
+    border-radius: 10px;
+    box-shadow: var(--box-shadow-light);
+}
 
+.insight-content, img {
+    transition: 1s;
+}
+.insight-content:hover, img:hover {
+    box-shadow: var(--box-shadow-heavy);
+    /*transform: translateX(-3px);*/
+    transition: 1s;
+}
+.insight-content {
+    min-height: var(--content-height);
+    padding: 30px 30px 30px 60px;
+    z-index: 1;
+    flex-shrink: 0;
+    flex-grow: 1;
+
+}
+
+.insight-content > h2 {
+    text-transform: uppercase;
 }
 .insight-row:nth-child(odd) .insight-content
 {
@@ -92,16 +113,16 @@ body {
     margin-right: var(--overlap);
 }
 
-
-img {
-    background: none;
-    width: 100%;
-    height: max-content;
-    border-radius: 20px;
-    box-shadow: 0 0 15px 0 gray;
+.insight-image {
+    z-index: 100;
 }
 
-/* for visal purposes only */
+
+.contact > * {
+    z-index: 100;
+}
+
+/* responsive section */
 @media all and (max-width: 650px) {
     .insight-row {
         grid-template-columns: 1fr;
@@ -136,6 +157,10 @@ img {
 
     img {
         border-radius: 10px 10px 0 0;
+        box-shadow: none;
+    }
+
+    .insight-content:hover, img:hover {
         box-shadow: none;
     }
 }

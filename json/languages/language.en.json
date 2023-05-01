@@ -1,0 +1,29 @@
+{
+  "language": {
+    "name": "English",
+    "code": "en"
+  },
+  "generic_text": {
+    "translation_not_available": "Translation not available in English.",
+    "menu_action": "Actions",
+    "menu_reporting": "Reports",
+    "menu_manage": "Manage"
+  },
+  "insights": {
+    "insights_sdg_title": "SUSTAINABLE DEVELOPMENT GOALS",
+    "insights_sdg_p1": " The Sustainable Development Goals (SDGs), also known as the Global Goals, were adopted by the United Nations in 2015 as a universal call to action to end poverty, protect the planet, and ensure that by 2030 all people enjoy peace and prosperity.",
+    "insights_sdg_p2": "The 17 SDGs are integrated—they recognize that action in one area will affect outcomes in others, and that development must balance social, economic and environmental sustainability. For example the Just and sustainable economy: EU-Commission lays down rules for companies to respect human rights and environment in global value chains. ",
+    "insights_esg_title": "CORPORATE SUSTAINABILITY DUE DILIGENCE DIRECTIVE (CSDDD) ",
+    "insights_esg_p1": "Fostering sustainability in corporate governance and management systems.",
+    "insights_esg_p2": "The European Commission adopted a proposal for a Directive on corporate sustainability due diligence. The aim of this Directive is to foster sustainable and responsible corporate behaviour and to anchor human rights and environmental considerations in companies’ operations and corporate governance. The new rules will ensure that businesses address adverse impacts of their actions, including in their value chains inside and outside Europe.",
+    "insights_csrd_title": "Corporate Sustainability Reporting Directive (CSRD)",
+    "insights_csrd_p1": "Fostering sustainability in corporate governance and management systems.",
+    "insights_csrd_p2": "The CSRD will amend the existing Non-Financial Reporting Directive (NFRD) and will substantially increase reporting requirements on the companies falling within its scope in its efforts to expand the sustainability information for users.",
+    "insights_oecd_title": "OECD Due Diligence Guidance for Multinational Enterprises and Responsible Business Conduct",
+    "insights_oecd_p1": "TThe OECD Guidelines for Multinational Enterprises are recommendations addressed by governments to multinational enterprises operating in or from adhering countries. They provide non-binding principles and standards for responsible business conduct in a global context consistent with applicable laws and internationally recognised standards. The Guidelines are the only multilaterally agreed and comprehensive code of responsible business conduct that governments have committed to promoting.",
+    "insights_sdg_and_edg_title": "ESG and SDG",
+    "insights_sdg_and_edg_p1": "A mapping by Berenberg “2019” in their ESG office study titled “Understanding the SDGs in sustainable investing” divides SDGs across ESG factors",
+    "insights_education_title": "The importance of education",
+    "insights_education_p1": "Education drives each of the UN Sustainable Development Goals.!!"
+  }
+}
