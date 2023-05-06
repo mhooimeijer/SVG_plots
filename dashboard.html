@@ -1,0 +1,293 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Dashboard Test</title>
+    <link rel="stylesheet" href="css/dashboard.css">
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+        .my-column {
+            --column-rotation: 0deg;
+            --column-size: 40px;
+            --column-gap: 50px;
+            --column-grouping-left: 25vw;
+            transition: 500ms;
+            transition-delay: 100ms;
+            position: absolute;
+            transform-style: preserve-3d;
+        }
+
+
+        .my-column-top, .my-column-front, .my-column-right, .my-column-left {
+            transition: 500ms;
+            transition-delay: 100ms;
+            transform-style: preserve-3d;
+            position: absolute;
+            margin: 0 auto;
+        }
+        .column-label {
+            display: inline-block;
+            writing-mode: vertical-rl;
+            text-orientation: mixed;
+            margin-top: 5px;
+            transform-origin: center center ;
+            transform: rotateZ(180deg) translateX(-50%);
+            text-align: center;
+            justify-content: center;
+            /*margin: 0 auto;*/
+            color: white;
+        }
+        .my-column-1 {
+            --column-height: 160px;
+            --column-left: var(--column-grouping-left);
+            transform: translateX(var(--column-left));
+        }
+
+        .my-column-2 {
+            --column-height: 140px;
+            --column-left: calc(var(--column-grouping-left) + var(--column-size) + var(--column-gap));
+            transform: translateX(var(--column-left));
+        }
+
+        .my-column-3 {
+            --column-height: 100px;
+            --column-left: calc(var(--column-grouping-left) + 2* var(--column-size) + 2* var(--column-gap));
+            transform: translateX(var(--column-left));
+        }
+
+        .my-column-4 {
+            --column-height: 200px;
+            --column-left: calc(var(--column-grouping-left) + 3* var(--column-size) + 3* var(--column-gap));
+            transform: translateX(var(--column-left));
+        }
+
+        .my-column-5 {
+            --column-height: 140px;
+            --column-left: calc(var(--column-grouping-left) + 4* var(--column-size) + 4* var(--column-gap));
+            transform: translateX(var(--column-left));
+        }
+        .my-column-6 {
+            --column-height: 80px;
+            --column-left: calc(var(--column-grouping-left) + 5* var(--column-size) + 5* var(--column-gap));
+            transform: translateX(var(--column-left));
+        }
+
+        .my-column-top {
+            height: var(--column-size);
+            width: var(--column-size);
+            background-color: gray;
+            transform:  rotate(var(--column-rotation));
+            padding: 4px;
+            text-align: center;
+            align-content: center;
+        }
+
+        .my-column-right {
+            height: var(--column-size);
+            width: var(--column-height);
+            background-color: dimgray;
+            transform-origin: bottom left;
+            /*transform:  translateX(var(--column-size)) rotateY(-90deg) translateX(calc(0px - var(--column-height) ));*/
+            transform: translateX(var(--column-size)) rotateY(90deg) translateX(0px) rotateX(calc(0deg - var(--column-rotation)));
+
+        }
+
+        .my-column-front {
+            height: var(--column-height);
+            width: var(--column-size);
+            background-color: #AAAAAA;
+            transform-origin: top left;
+            /*padding: 0.1em;*/
+            transform: translateY(var(--column-size)) rotateX(270deg) translateY(0px);
+        }
+
+        .my-column-left {
+            height: var(--column-size);
+            width: var(--column-height);
+            background-color: lightgrey;
+            transform-origin: top left;
+            transform: rotateY(-90deg) translateX(calc(0px - var(--column-height)));
+        }
+
+        .dashboard-panel:active .my-column-top, .dashboard-panel.tilt .my-column-top {
+            transform: rotate(var(--column-rotation)) translateZ(var(--column-height));
+        }
+
+        .dashboard-panel:active .my-column-front, .dashboard-panel.tilt .my-column-front
+        {
+            transform: translateY(var(--column-size)) rotateX(270deg) translateY(calc(0px - var(--column-height)));
+        }
+
+        .dashboard-panel:active .my-column-right,  .dashboard-panel.tilt .my-column-right {
+            transform: translateX(var(--column-size)) rotateY(90deg) translateX(calc(0px - var(--column-height))) rotateX(calc(0deg - var(--column-rotation)));
+        }
+
+        .dashboard-panel:active .my-column-left, .dashboard-panel.tilt .my-column-left {
+            transform: rotateY(-90deg) translateX(0px);
+        }
+
+    </style>
+</head>
+<body>
+
+<section class="dashboard">
+
+    <div class="dashboard-panel dashboard-panel-item1">
+        <div class="dashboard-panel-body">
+            Numeric - no header
+        </div>
+    </div>
+    <div class="dashboard-panel dashboard-panel-item2">
+        <div class="dashboard-panel-header">
+            <div class="dashboard-panel-header-title">
+                This is the header.
+            </div>
+            <div class="dashboard-panel-header-menu">
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+                     class="bi bi-three-dots-vertical" viewBox="0 0 16 16">
+                    <path d="M9.5 13a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0zm0-5a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0zm0-5a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0z"/>
+                </svg>
+            </div>
+        </div>
+        <div class="dashboard-panel-body ">
+            Some nice contact <br>
+            Some nice contact <br>
+            Some nice contact <br>
+            Some nice contact <br>
+            Some nice contact <br>
+            Some nice contact <br>
+            Some nice contact <br>
+            Some nice contact <br>
+            Some nice contact <br>
+            Some nice contact <br>
+            Some nice contact <br>
+        </div>
+    </div>
+    <div class="dashboard-panel dashboard-panel-item3">
+        <div class="dashboard-panel-header">
+            <div class="dashboard-panel-header-title">
+                This is the header that is very very very lonh.
+            </div>
+            <div class="dashboard-panel-header-menu">
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+                     class="bi bi-three-dots-vertical" viewBox="0 0 16 16">
+                    <path d="M9.5 13a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0zm0-5a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0zm0-5a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0z"/>
+                </svg>
+            </div>
+        </div>
+        <div class="dashboard-panel-body">
+            Some nice contact
+        </div>
+    </div>
+    <div class="dashboard-panel dashboard-panel-item4">
+        <div class="dashboard-panel-header">
+            <div class="dashboard-panel-header-title">
+                This is the header.
+            </div>
+            <div class="dashboard-panel-header-menu">
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+                     class="bi bi-three-dots-vertical" viewBox="0 0 16 16">
+                    <path d="M9.5 13a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0zm0-5a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0zm0-5a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0z"/>
+                </svg>
+            </div>
+        </div>
+        <div class="dashboard-panel-body">
+            Some nice content
+<!--            <div class="object-3d"></div>-->
+            <div class="my-column-1 my-column">
+                <div class="my-column-top">
+                    <svg xmlns="http://www.w3.org/2000/svg"  fill="white" class="bi bi-fingerprint icon" viewBox="0 0 16 16">
+                        <path d="M8.06 6.5a.5.5 0 0 1 .5.5v.776a11.5 11.5 0 0 1-.552 3.519l-1.331 4.14a.5.5 0 0 1-.952-.305l1.33-4.141a10.5 10.5 0 0 0 .504-3.213V7a.5.5 0 0 1 .5-.5Z"/>
+                        <path d="M6.06 7a2 2 0 1 1 4 0 .5.5 0 1 1-1 0 1 1 0 1 0-2 0v.332c0 .409-.022.816-.066 1.221A.5.5 0 0 1 6 8.447c.04-.37.06-.742.06-1.115V7Zm3.509 1a.5.5 0 0 1 .487.513 11.5 11.5 0 0 1-.587 3.339l-1.266 3.8a.5.5 0 0 1-.949-.317l1.267-3.8a10.5 10.5 0 0 0 .535-3.048A.5.5 0 0 1 9.569 8Zm-3.356 2.115a.5.5 0 0 1 .33.626L5.24 14.939a.5.5 0 1 1-.955-.296l1.303-4.199a.5.5 0 0 1 .625-.329Z"/>
+                        <path d="M4.759 5.833A3.501 3.501 0 0 1 11.559 7a.5.5 0 0 1-1 0 2.5 2.5 0 0 0-4.857-.833.5.5 0 1 1-.943-.334Zm.3 1.67a.5.5 0 0 1 .449.546 10.72 10.72 0 0 1-.4 2.031l-1.222 4.072a.5.5 0 1 1-.958-.287L4.15 9.793a9.72 9.72 0 0 0 .363-1.842.5.5 0 0 1 .546-.449Zm6 .647a.5.5 0 0 1 .5.5c0 1.28-.213 2.552-.632 3.762l-1.09 3.145a.5.5 0 0 1-.944-.327l1.089-3.145c.382-1.105.578-2.266.578-3.435a.5.5 0 0 1 .5-.5Z"/>
+                        <path d="M3.902 4.222a4.996 4.996 0 0 1 5.202-2.113.5.5 0 0 1-.208.979 3.996 3.996 0 0 0-4.163 1.69.5.5 0 0 1-.831-.556Zm6.72-.955a.5.5 0 0 1 .705-.052A4.99 4.99 0 0 1 13.059 7v1.5a.5.5 0 1 1-1 0V7a3.99 3.99 0 0 0-1.386-3.028.5.5 0 0 1-.051-.705ZM3.68 5.842a.5.5 0 0 1 .422.568c-.029.192-.044.39-.044.59 0 .71-.1 1.417-.298 2.1l-1.14 3.923a.5.5 0 1 1-.96-.279L2.8 8.821A6.531 6.531 0 0 0 3.058 7c0-.25.019-.496.054-.736a.5.5 0 0 1 .568-.422Zm8.882 3.66a.5.5 0 0 1 .456.54c-.084 1-.298 1.986-.64 2.934l-.744 2.068a.5.5 0 0 1-.941-.338l.745-2.07a10.51 10.51 0 0 0 .584-2.678.5.5 0 0 1 .54-.456Z"/>
+                        <path d="M4.81 1.37A6.5 6.5 0 0 1 14.56 7a.5.5 0 1 1-1 0 5.5 5.5 0 0 0-8.25-4.765.5.5 0 0 1-.5-.865Zm-.89 1.257a.5.5 0 0 1 .04.706A5.478 5.478 0 0 0 2.56 7a.5.5 0 0 1-1 0c0-1.664.626-3.184 1.655-4.333a.5.5 0 0 1 .706-.04ZM1.915 8.02a.5.5 0 0 1 .346.616l-.779 2.767a.5.5 0 1 1-.962-.27l.778-2.767a.5.5 0 0 1 .617-.346Zm12.15.481a.5.5 0 0 1 .49.51c-.03 1.499-.161 3.025-.727 4.533l-.07.187a.5.5 0 0 1-.936-.351l.07-.187c.506-1.35.634-2.74.663-4.202a.5.5 0 0 1 .51-.49Z"/>
+                    </svg>
+                </div>
+                <div class="my-column-front"><span class="column-label">Identity</span></div>
+                <div class="my-column-left"></div>
+                <div class="my-column-right"></div>
+                <div class="my-column-back"></div>
+            </div>
+            <div class="my-column-2 my-column">
+                <div class="my-column-top">
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="white" class="bi bi-shield-fill-check" viewBox="0 0 16 16">
+                        <path fill-rule="evenodd" d="M8 0c-.69 0-1.843.265-2.928.56-1.11.3-2.229.655-2.887.87a1.54 1.54 0 0 0-1.044 1.262c-.596 4.477.787 7.795 2.465 9.99a11.777 11.777 0 0 0 2.517 2.453c.386.273.744.482 1.048.625.28.132.581.24.829.24s.548-.108.829-.24a7.159 7.159 0 0 0 1.048-.625 11.775 11.775 0 0 0 2.517-2.453c1.678-2.195 3.061-5.513 2.465-9.99a1.541 1.541 0 0 0-1.044-1.263 62.467 62.467 0 0 0-2.887-.87C9.843.266 8.69 0 8 0zm2.146 5.146a.5.5 0 0 1 .708.708l-3 3a.5.5 0 0 1-.708 0l-1.5-1.5a.5.5 0 1 1 .708-.708L7.5 7.793l2.646-2.647z"/>
+                    </svg>
+                </div>
+                <div class="my-column-front"><span class="column-label">IT</span></div>
+                <div class="my-column-left"></div>
+                <div class="my-column-right"></div>
+                <div class="my-column-back"></div>
+            </div>
+            <div class="my-column-3 my-column">
+                <div class="my-column-top"><svg xmlns="http://www.w3.org/2000/svg"  fill="white" class="bi bi-globe" viewBox="0 0 16 16">
+                    <path d="M0 8a8 8 0 1 1 16 0A8 8 0 0 1 0 8zm7.5-6.923c-.67.204-1.335.82-1.887 1.855A7.97 7.97 0 0 0 5.145 4H7.5V1.077zM4.09 4a9.267 9.267 0 0 1 .64-1.539 6.7 6.7 0 0 1 .597-.933A7.025 7.025 0 0 0 2.255 4H4.09zm-.582 3.5c.03-.877.138-1.718.312-2.5H1.674a6.958 6.958 0 0 0-.656 2.5h2.49zM4.847 5a12.5 12.5 0 0 0-.338 2.5H7.5V5H4.847zM8.5 5v2.5h2.99a12.495 12.495 0 0 0-.337-2.5H8.5zM4.51 8.5a12.5 12.5 0 0 0 .337 2.5H7.5V8.5H4.51zm3.99 0V11h2.653c.187-.765.306-1.608.338-2.5H8.5zM5.145 12c.138.386.295.744.468 1.068.552 1.035 1.218 1.65 1.887 1.855V12H5.145zm.182 2.472a6.696 6.696 0 0 1-.597-.933A9.268 9.268 0 0 1 4.09 12H2.255a7.024 7.024 0 0 0 3.072 2.472zM3.82 11a13.652 13.652 0 0 1-.312-2.5h-2.49c.062.89.291 1.733.656 2.5H3.82zm6.853 3.472A7.024 7.024 0 0 0 13.745 12H11.91a9.27 9.27 0 0 1-.64 1.539 6.688 6.688 0 0 1-.597.933zM8.5 12v2.923c.67-.204 1.335-.82 1.887-1.855.173-.324.33-.682.468-1.068H8.5zm3.68-1h2.146c.365-.767.594-1.61.656-2.5h-2.49a13.65 13.65 0 0 1-.312 2.5zm2.802-3.5a6.959 6.959 0 0 0-.656-2.5H12.18c.174.782.282 1.623.312 2.5h2.49zM11.27 2.461c.247.464.462.98.64 1.539h1.835a7.024 7.024 0 0 0-3.072-2.472c.218.284.418.598.597.933zM10.855 4a7.966 7.966 0 0 0-.468-1.068C9.835 1.897 9.17 1.282 8.5 1.077V4h2.355z"/>
+                </svg></div>
+                <div class="my-column-front"><span class="column-label">ESG</span></div>
+                <div class="my-column-left"></div>
+                <div class="my-column-right"></div>
+                <div class="my-column-back"></div>
+            </div>
+            <div class="my-column-4 my-column">
+                <div class="my-column-top">
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="white" class="bi bi-bank" viewBox="0 0 16 16">
+                        <path d="m8 0 6.61 3h.89a.5.5 0 0 1 .5.5v2a.5.5 0 0 1-.5.5H15v7a.5.5 0 0 1 .485.38l.5 2a.498.498 0 0 1-.485.62H.5a.498.498 0 0 1-.485-.62l.5-2A.501.501 0 0 1 1 13V6H.5a.5.5 0 0 1-.5-.5v-2A.5.5 0 0 1 .5 3h.89L8 0ZM3.777 3h8.447L8 1 3.777 3ZM2 6v7h1V6H2Zm2 0v7h2.5V6H4Zm3.5 0v7h1V6h-1Zm2 0v7H12V6H9.5ZM13 6v7h1V6h-1Zm2-1V4H1v1h14Zm-.39 9H1.39l-.25 1h13.72l-.25-1Z"/>
+                    </svg>
+                </div>
+                <div class="my-column-front"><span class="column-label">Financial</span></div>
+                <div class="my-column-left"></div>
+                <div class="my-column-right"></div>
+                <div class="my-column-back"></div>
+            </div>
+            <div class="my-column-5 my-column">
+                <div class="my-column-top">
+                    <svg xmlns="http://www.w3.org/2000/svg"  fill="white" class="bi bi-hand-thumbs-up" viewBox="0 0 16 16">
+                        <path d="M8.864.046C7.908-.193 7.02.53 6.956 1.466c-.072 1.051-.23 2.016-.428 2.59-.125.36-.479 1.013-1.04 1.639-.557.623-1.282 1.178-2.131 1.41C2.685 7.288 2 7.87 2 8.72v4.001c0 .845.682 1.464 1.448 1.545 1.07.114 1.564.415 2.068.723l.048.03c.272.165.578.348.97.484.397.136.861.217 1.466.217h3.5c.937 0 1.599-.477 1.934-1.064a1.86 1.86 0 0 0 .254-.912c0-.152-.023-.312-.077-.464.201-.263.38-.578.488-.901.11-.33.172-.762.004-1.149.069-.13.12-.269.159-.403.077-.27.113-.568.113-.857 0-.288-.036-.585-.113-.856a2.144 2.144 0 0 0-.138-.362 1.9 1.9 0 0 0 .234-1.734c-.206-.592-.682-1.1-1.2-1.272-.847-.282-1.803-.276-2.516-.211a9.84 9.84 0 0 0-.443.05 9.365 9.365 0 0 0-.062-4.509A1.38 1.38 0 0 0 9.125.111L8.864.046zM11.5 14.721H8c-.51 0-.863-.069-1.14-.164-.281-.097-.506-.228-.776-.393l-.04-.024c-.555-.339-1.198-.731-2.49-.868-.333-.036-.554-.29-.554-.55V8.72c0-.254.226-.543.62-.65 1.095-.3 1.977-.996 2.614-1.708.635-.71 1.064-1.475 1.238-1.978.243-.7.407-1.768.482-2.85.025-.362.36-.594.667-.518l.262.066c.16.04.258.143.288.255a8.34 8.34 0 0 1-.145 4.725.5.5 0 0 0 .595.644l.003-.001.014-.003.058-.014a8.908 8.908 0 0 1 1.036-.157c.663-.06 1.457-.054 2.11.164.175.058.45.3.57.65.107.308.087.67-.266 1.022l-.353.353.353.354c.043.043.105.141.154.315.048.167.075.37.075.581 0 .212-.027.414-.075.582-.05.174-.111.272-.154.315l-.353.353.353.354c.047.047.109.177.005.488a2.224 2.224 0 0 1-.505.805l-.353.353.353.354c.006.005.041.05.041.17a.866.866 0 0 1-.121.416c-.165.288-.503.56-1.066.56z"/>
+                    </svg>
+                </div>
+                <div class="my-column-front"><span class="column-label">Delivery</span></div>
+                <div class="my-column-left"></div>
+                <div class="my-column-right"></div>
+                <div class="my-column-back"></div>
+            </div>
+            <div class="my-column-6 my-column">
+                <div class="my-column-top">
+                    <svg xmlns="http://www.w3.org/2000/svg"  fill="white" class="bi bi-clipboard-check" viewBox="0 0 16 16">
+                    <path fill-rule="evenodd" d="M10.854 7.146a.5.5 0 0 1 0 .708l-3 3a.5.5 0 0 1-.708 0l-1.5-1.5a.5.5 0 1 1 .708-.708L7.5 9.793l2.646-2.647a.5.5 0 0 1 .708 0z"/>
+                    <path d="M4 1.5H3a2 2 0 0 0-2 2V14a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V3.5a2 2 0 0 0-2-2h-1v1h1a1 1 0 0 1 1 1V14a1 1 0 0 1-1 1H3a1 1 0 0 1-1-1V3.5a1 1 0 0 1 1-1h1v-1z"/>
+                    <path d="M9.5 1a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5h-3a.5.5 0 0 1-.5-.5v-1a.5.5 0 0 1 .5-.5h3zm-3-1A1.5 1.5 0 0 0 5 1.5v1A1.5 1.5 0 0 0 6.5 4h3A1.5 1.5 0 0 0 11 2.5v-1A1.5 1.5 0 0 0 9.5 0h-3z"/>
+                </svg>
+                </div>
+                <div class="my-column-front"><span class="column-label">Competence</span></div>
+                <div class="my-column-left"></div>
+                <div class="my-column-right"></div>
+                <div class="my-column-back"></div>
+            </div>
+
+
+        </div>
+    </div>
+
+</section>
+<script>
+    function toggleTilt(e){
+        if (e.target.classList.contains('tilt')){
+            e.target.classList.remove('tilt');
+        }else{
+            e.target.classList.add('tilt');
+        }
+    }
+    const nodeList = document.querySelectorAll(".dashboard-panel");
+    nodeList.forEach(function (node) {
+        node.addEventListener('click', toggleTilt);
+    });
+
+</script>
+</body>
+</html>

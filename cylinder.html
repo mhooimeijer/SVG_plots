@@ -1,0 +1,116 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Cylinder</title>
+    <style>
+        body {
+            padding: 50px 0;
+            text-align: center;
+        }
+
+        input {
+            margin-bottom: 30px;
+        }
+
+        .cylinder {
+            position: relative;
+            overflow: hidden;
+            margin: 0 auto;
+            width: 100px;
+            height: 300px;
+            border-radius: 50px/25px;
+            background-color: rgba(160, 160, 160, 0.5);
+        }
+
+        .cylinder:before {
+            position: absolute;
+            left: 0;
+            top: 0;
+            width: 100px;
+            height: 50px;
+            border-radius: 50px/25px;
+            background-color: rgba(160, 160, 160, 0.2);
+            content: '';
+        }
+
+        .cylinder:after {
+            position: absolute;
+            left: 0;
+            bottom: 0;
+            width: 100px;
+            height: 50px;
+            border-radius: 50px/25px;
+            background-color: rgba(160, 160, 160, 0.4);
+            content: '';
+        }
+
+        .water {
+            position: absolute;
+            left: 0;
+            bottom: 0;
+            width: 100px;
+            height: 0;
+            padding-top: 50px;
+            border-radius: 50px/25px;
+            background-color: rgba(0, 160, 160, 0.5);
+            transition: 0.3s linear;
+        }
+
+        .water:before {
+            position: absolute;
+            left: 0;
+            top: 0;
+            width: 100px;
+            height: 50px;
+            border-radius: 50px/25px;
+            background-color: rgba(0, 160, 160, 0.2);
+            content: '';
+        }
+
+        .water:after {
+            position: absolute;
+            left: 0;
+            bottom: 0;
+            width: 100px;
+            height: 50px;
+            border-radius: 50px/25px;
+            background-color: rgba(0, 160, 160, 0.4);
+            content: '';
+        }
+
+        .water--0:checked ~ .cylinder .water {
+            bottom: -50px;
+        }
+
+        .water--30:checked ~ .cylinder .water {
+            height: calc(250px * 0.3);
+        }
+
+        .water--50:checked ~ .cylinder .water {
+            height: calc(250px * 0.5);
+        }
+
+        .water--90:checked ~ .cylinder .water {
+            height: calc(250px * 0.9);
+        }
+    </style>
+</head>
+<body>
+<input type="radio" name="water" class="water--0" id="r0">
+<label for="r0">empty</label>
+<input type="radio" name="water" class="water--30" id="r1">
+<label for="r1">30%</label>
+<input type="radio" name="water" class="water--50" id="r2">
+<label for="r2">50%</label>
+<input type="radio" name="water" class="water--90" id="r3">
+<label for="r3">90%</label>
+
+<div class="cylinder">
+    <div class="water"></div>
+</div>
+</body>
+</html>
