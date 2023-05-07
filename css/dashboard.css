@@ -5,6 +5,7 @@ body {
 
 /* General dashboard definitions */
 section.dashboard {
+    --panel-tilt: 60deg;
     display: grid;
     grid-template-columns: repeat(4, 1fr);
     grid-auto-rows:  minmax(150px, max-content);
@@ -45,10 +46,8 @@ section.dashboard {
 
 }
 
-.dashboard-panel:active, .dashboard-panel.tilt {
-    transform: rotate3d(1, 0, 0, 60deg);
-    height: 300px;
-
+.dashboard-panel.tilted {
+    transform: rotate3d(1, 0, 0, var(--panel-tilt));
 }
 
 .dashboard-panel-header {
@@ -103,6 +102,38 @@ section.dashboard {
 
 .dashboard-panel-item4 {
     grid-area: item4;
-    min-height: 250px;
+    perspective: 2000px;
+    min-height: 150px;
 }
 
+.test-3d {
+    width: 100%;
+    margin: 0 auto;
+}
+
+.test-3d-panel {
+    transform-style: preserve-3d;
+    transform: rotateX(0deg);
+    grid-area: item2;
+}
+
+.test-3d-panel:active {
+    transform: rotateX(45deg);
+}
+.test-3d-item {
+    width: 80px;
+    height: 100px;
+    color: white;
+    transform-style: preserve-3d;
+    transform-origin: bottom;
+    transform: scale3d(1,1,0)  rotateX(-90deg);
+    transition-duration: 500ms;
+    background-color: red;
+
+}
+.test-3d-panel:active .test-3d-item{
+    height: 100px;
+    transform: scale3d(1,1,1) rotateX(-90deg);
+    background-color: red;
+
+}
