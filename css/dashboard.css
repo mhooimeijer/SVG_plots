@@ -16,7 +16,8 @@ section.dashboard {
     padding: 1em;
     gap: 1.3em;
     max-width: 1200px;
-    perspective: 1000px;
+    perspective: 10000px;
+    perspective-origin: center;
 }
 
 @media screen and (width < 800px) {
