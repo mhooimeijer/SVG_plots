@@ -1,0 +1,174 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <link href="https://fonts.googleapis.com/css2?family=Abel&family=Caveat&family=Montserrat:wght@400;600&display=swap"
+          rel="stylesheet"></link>
+    <style>
+        *,
+        *::after,
+        *::before {
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: "Abel", sans-serif;
+            background-color: white;
+        }
+
+        svg {
+            --background-color: white;
+            font-family: "Abel", sans-serif;
+        }
+
+        svg text {
+            fill: #DCDCDC;
+            text-transform: uppercase;
+        }
+
+        .svg-logo-name {
+            /*letter-spacing: 0.27em;*/
+            font-size: 0.3em;
+            font-weight: 900;
+            stroke: #dddddd;
+            stroke-width: 0.05em;
+        }
+
+        .svg-logo-tagline {
+            font-size: 0.15em;
+        }
+
+        .svg-logo-background {
+            fill: var(--background-color);
+        }
+
+        .svg-logo-vs {
+            /*transform: translate(25px, 25px);*/
+            /*transform-origin: 0px 10px;*/
+            animation: logo_stretch 2s forwards;
+            animation-delay: 1s;
+
+
+        }
+
+        .svg-logo-vs path {
+            stroke-dashoffset: 200;
+            stroke-dasharray: 200;
+            stroke: gray;
+            animation: draw_lines 3s forwards;
+            animation-delay: 2s;
+            /*fill: none;*/
+        }
+
+        .svg-logo-v {
+            animation: logo_v_stretch 2s forwards;
+            animation-delay: 5.5s;
+        }
+
+        @keyframes logo_v_stretch {
+            0% {
+                transform: scale(1);
+            }
+            50% {
+                transform: translate(-1px, 0) scale(1.05);
+            }
+            100% {
+                transform: scale(1);
+            }
+        }
+
+        @keyframes logo_stretch {
+            0% {
+                transform: translate(20%, 5%) scale(1);
+            }
+            50% {
+                transform: scale(1.4);
+            }
+            100% {
+                transform: translate(20%, 5%) scale(1);
+            }
+        }
+
+        @keyframes draw_lines {
+            50% {
+                stroke-dashoffset: 0;
+                stroke: gray;
+            }
+            100% {
+                stroke: lightgrey;
+            }
+        }
+
+    </style>
+</head>
+<body>
+<svg fill="none" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 40 40" width="250px" height="250px">
+    <defs>
+        <linearGradient id="fill_v" x1="0%" y1="0%" x2="100%" y2="0%">
+            <stop offset="0%" style="stop-color:rgb(135,210,231);stop-opacity:0.0">
+                <animate attributeName="stop-color" values=" rgb(135,210,231); green; rgb(135,210,231)" begin="5.5s"
+                         dur="2.5s" repeatCount="1" fill="freeze">
+                </animate>
+                <animate attributeName="stop-opacity" values="0; 1" begin="2s" dur="5s" repeatCount="1" fill="freeze">
+                </animate>
+            </stop>
+            <stop offset="100%" style="stop-color:rgb(135,210,231);stop-opacity:0">
+                <animate attributeName="stop-color" values="rgb(135,210,231); green; lightgreen; rgb(135,210,231)" begin="5.7s"
+                         dur="2.6s" repeatCount="1" fill="freeze">
+                </animate>
+                <animate attributeName="stop-opacity" values="0; 1" begin="2s" dur="3s" repeatCount="1" fill="freeze">
+                </animate>
+            </stop>
+        </linearGradient>
+        <linearGradient id="fill_s" x1="0%" y1="0%" x2="100%" y2="0%">
+            <stop offset="100%" style="stop-color:rgb(135,210,231);stop-opacity:0">
+                <animate attributeName="stop-color" values="rgb(135,210,231)" begin="3.6s" dur="1s" repeatCount="1"
+                         fill="freeze">
+                </animate>
+                <animate attributeName="stop-opacity" values="0; 1" begin="2s" dur="3s" repeatCount="1" fill="freeze">
+                </animate>
+            </stop>
+        </linearGradient>
+        <linearGradient id="fill_shield" x1="0%" y1="0%" x2="100%" y2="0%">
+            <stop offset="100%" style="stop-color:gray;stop-opacity:1">
+                <animate attributeName="stop-color" values="gray; transparent" begin="0.3s" dur="2s" repeatCount="1"
+                         fill="freeze">
+                </animate>
+                <animate attributeName="stop-opacity" values="1;0" begin="1s" dur="5s" repeatCount="1" fill="freeze">
+                </animate>
+            </stop>
+        </linearGradient>
+    </defs>
+    <rect class="svg-logo-background" height="100%" width="100%"></rect>
+    <g id="svg-logo-text-block" transform="translate(0 -20)" fill="rgb(135,210,231)">
+        <animateTransform attributeName="transform" attributeType="XML"
+                          type="translate" from="0 -20" to="0 0"
+                          begin="3s" dur="2s" fill="freeze"/>
+        <text class="svg-logo-name" textLength="90%" text-anchor="middle" x="50%" y="33" stroke="none" font-size="4"
+              font-family="Abel">VALUESCORE
+        </text>
+        <text class="svg-logo-tagline" textLength="90%" text-anchor="middle" x="50%" y="38" stroke="none" font-size="4"
+              font-family="Abel" lengthAdjust="spacing">due diligence made easy
+        </text>
+    </g>
+    <rect class="svg-logo-background" height="28" width="100%"></rect>
+    <g class="svg-logo-vs" transform="translate(8, 2)">
+        <path class="svg-icon-background-fill" d="M0 0 L24 0 L24 3.2 L24 17.8 L12 24.4 L0 17.8 Z" stroke-width="0"
+              stroke="black" fill="url(#fill_shield)"/>
+        <!--        <path class="icon" d="M0 0 L24 0 L24 3.2 L14.4 3.2 L0 11.4 L0 8 L8.2 3.2 L0 3.2 Z" stroke-width="0" />-->
+        <g class="svg-logo-v" transform="translate(0, 0)">
+            <path d="M0 0 L0 11.4 L14.4 3.2 L24 3.2 L24 0 L13.66 0 L3.2 6.12 L3.2 0 Z"
+                  fill="url(#fill_v)" stroke-width="0.2" stroke="black"></path>
+        </g>
+        <path d="M0 16.7 L0 16 L15.4 7 L24 7 L24 10.2 L16.2 10.2 L9.6 13.8 L24 13.8 L24 17.8 L12 24.4 L5.4 20.8 L12.4 20.8 L20 16.7 Z"
+              fill="url(#fill_s)" stroke-width="0.2" stroke="black"/>
+    </g>
+</svg>
+<!--<img class="svg" type="image/svg+xml" src="images/valuescore_logo.svg" width="200px"></img>-->
+
+</body>
+</html>
