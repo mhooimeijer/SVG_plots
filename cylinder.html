@@ -100,6 +100,26 @@
     </style>
 </head>
 <body>
+
+<script>
+    function getSVGElement(tag_name, elemAttributes) {
+        const element = document.createElementNS('http://www.w3.org/2000/svg', tag_name);
+        Object.keys(elemAttributes).forEach(attribute => {
+            if (attribute === 'textContent'){
+                element.textContent = elemAttributes[attribute];
+            }else{
+                element.setAttribute(attribute, elemAttributes[attribute]);
+            }
+        });
+        return element;
+    }
+    const testMap = new Map([["one", "value"], ["two", "value"]]);
+
+    const svg_text = getSVGElement("g", {id: "MyId", class: "MyClass", x: "0", y:"50", transform: "translate(40, 60)"})
+    console.log(svg_text);
+
+</script>
+
 <input type="radio" name="water" class="water--0" id="r0">
 <label for="r0">empty</label>
 <input type="radio" name="water" class="water--30" id="r1">
