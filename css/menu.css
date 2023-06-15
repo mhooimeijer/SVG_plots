@@ -1,0 +1,65 @@
+*,
+*::before,
+*::after {
+    box-sizing: border-box;
+}
+
+body {
+    background-color: #333;
+    color: white;
+}
+
+.navbar-container {
+    background-color: white;
+    border-radius: 0.5rem;
+    width: max-content;
+    margin: 10rem auto 0;
+    padding: 0 1.5rem;
+}
+
+.list {
+    display: flex;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+}
+
+.list a {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    color: #333;
+    text-decoration: none;
+    padding: 1em;
+}
+
+.list .icon svg {
+    fill: currentColor;
+    width: 2em;
+    height: 2em ;
+    display: block;
+}
+
+.list .nav-label {
+    font-size: 0.8em;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 500ms ease-in-out;
+    display: none;
+}
+
+.list .active .nav-label {
+    pointer-events: all;
+    opacity: 1;
+}
+
+.list .active a {
+    padding: 0;
+}
+
+.list .active .icon {
+    background-color: hsl(100, 100%, 50%);
+    padding: 0.5em;
+    border-radius: 100%;
+    transform: translateY(-50%);
+}
