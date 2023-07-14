@@ -114,7 +114,7 @@
         line_stroke_width: 3,
         points: data_points
     };
-    // lineChart.addDataSeries(lineChart.lineTypes.line_with_points, data);
+    lineChart.addDataSeries(lineChart.lineTypes.line_with_points, data);
     lineChart.y_axis.min_value = 0;
     // lineChart.y_axis.max_value = 100;
     // lineChart.x_axis.min_value = 0;
@@ -162,7 +162,7 @@
         fill_opacity: '50%',
         line_stroke: 'black',
         line_stroke_width: 1,
-        points: [{x:1, y: 40}, {x: 2, y: 80}, {x: 3, y: 30}, {x: 4, y: 25}],
+        points: [{x:1, y: 40}, {x: 2, y: 80}, {x: 3, y: 30}, {x: 4, y: 25}, {x:5, y:45}],
         distribute_evenly: true
     };
     const lineChart2 = new AbstractSVGChart('line_chart2', 800, 600);
@@ -174,7 +174,7 @@
     lineChart2.y_axis.max_value = 100;
     lineChart2.x_axis.min_value = 0;
     lineChart2.x_axis.max_value = 100;
-    lineChart2.plot_area.fill = "skyblue";
+    lineChart2.plot_area.fill = "white";
     lineChart2.chart_title.text = "Chart #2"
     lineChart2.y_axis.title = "My Y Axis";
     lineChart2.y_axis.uom ='my %';
@@ -182,8 +182,8 @@
     lineChart2.x_axis.uom ='my %';
     lineChart2.x_axis.grid_lines.major.stroke = "black";
     lineChart2.y_axis.grid_lines.major.stroke = "black";
-    lineChart2.y_axis.grid_lines.minor.stroke = "green";
-    lineChart2.x_axis.grid_lines.minor.stroke = "green";
+    lineChart2.y_axis.grid_lines.minor.stroke = "gray";
+    lineChart2.x_axis.grid_lines.minor.stroke = "gray";
     lineChart2.plot_area.stroke = "blue";
     lineChart2.plot_area.stroke_width = "3";
 
