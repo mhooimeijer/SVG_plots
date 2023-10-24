@@ -1,0 +1,338 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>CSS Treeview</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet"
+          integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
+
+    <style>
+        body {
+            font-family: sans-serif
+        }
+
+        .compliance_wrapper {
+            display: grid;
+            grid-template-columns: 1fr 2fr;
+
+        }
+
+        .compliance_wrapper div {
+            /*border: 2px black solid;*/
+        }
+
+        button.accordion-button.error {
+            background-color: rgb(255, 121, 121) !important;
+            color: white;
+        }
+
+        button.accordion-button.warning {
+            background-color: orange !important;
+        }
+
+        button.accordion-button.ok {
+            background-color: #a4c7a4 !important;
+            color: black;
+        }
+
+        .tree {
+            --spacing: 1.5rem;
+            --radius: 10px;
+        }
+
+        .tree li {
+            display: block;
+            position: relative;
+            padding-left: calc(2 * var(--spacing) - var(--radius) - 2px);
+            padding-bottom: 6px;
+        }
+
+        .tree ul {
+            margin-left: calc(var(--radius) - var(--spacing));
+            padding-left: 0;
+            line-height: 150%;
+            padding-top: 4px;
+        }
+
+        .tree ul li {
+            border-left: 2px solid #ddd;
+
+        }
+
+        .tree ul li:last-child {
+            border-color: transparent;
+        }
+
+        .tree ul li::before {
+            content: '';
+            display: block;
+            position: absolute;
+            top: calc(var(--spacing) / -2);
+            left: -2px;
+            width: calc(var(--spacing) + 2px);
+            height: calc(var(--spacing) + 1px);
+            border: solid #ddd;
+            border-width: 0 0 2px 2px;
+        }
+
+        .tree summary {
+            display: block;
+            cursor: pointer;
+        }
+
+        .tree summary::marker,
+        .tree summary::-webkit-details-marker {
+            display: none;
+        }
+
+        .tree summary:focus {
+            outline: none;
+        }
+
+        .tree summary:focus-visible {
+            outline: 1px dotted #000;
+        }
+
+        .tree li::after,
+        .tree summary::before {
+            content: '';
+            display: block;
+            position: absolute;
+            top: calc(var(--spacing) / 2 - var(--radius));
+            left: calc(var(--spacing) - var(--radius) - 1px);
+            width: calc(2 * var(--radius));
+            height: calc(2 * var(--radius));
+            border-radius: 40%;
+            background: #ddd;
+        }
+
+        .tree summary::before {
+            z-index: 1;
+            background: #696 url('images/expand-collapse.svg') 0 0;
+        }
+
+        .tree details[open] > summary::before {
+            background-position: calc(-2 * var(--radius)) 0;
+        }
+
+        .tree li.error::after, .tree details summary.error::before {
+            /*background-color: red;*/
+            background: red url('images/expand-collapse.svg') 0 0;
+        }
+
+        .tree details[open] > summary.error::before {
+            background-position: calc(-2 * var(--radius)) 0;
+        }
+
+        .tree li.error.leaf::after {
+            background-position: calc(1.5 * var(--radius)) 0;
+        }
+
+        .tree li.warning::after, .tree details summary.warning::before {
+            background-color: orange;
+        }
+
+        .tree li.ok::after, .tree details summary.ok::before {
+            background-color: #696;
+        }
+
+    </style>
+
+</head>
+<body>
+
+
+<div class="compliance_wrapper">
+    <div class="compliance_navigator">
+        <ul class="tree">
+            <li class="ok">Persoonlijke compliance</li>
+            <li>
+                <details open>
+                    <summary class="error">Divisie 1</summary>
+                    <ul>
+                        <li>
+                            <details open>
+                                <summary class="warning">Departement 1-A</summary>
+                                <ul>
+                                    <li class="warning">
+                                        <details>
+                                            <summary class="warning">Team 1-A-i</summary>
+                                            <ul>
+                                                <li class="warning">Medewerker 1</li>
+                                                <li class="ok">Medewerker 2</li>
+                                                <li class="ok">Medewerker 3</li>
+                                                <li class="ok">Medewerker 4</li>
+                                                <li class="ok">Medewerker 5</li>
+                                            </ul>
+                                        </details>
+                                    </li>
+                                    <li class="ok">Team 1-A-ii</li>
+                                </ul>
+                            </details>
+                        </li>
+                        <li>
+                            <details open>
+                                <summary class="error">Departement 1-B</summary>
+                                <ul>
+                                    <li class="error">
+                                        <details open>
+                                            <summary class="error">Team 1-B-i</summary>
+                                            <ul>
+                                                <li class="ok">Medewerker 1</li>
+                                                <li class="ok">Medewerker 2</li>
+                                                <li class="ok">Medewerker 3</li>
+                                                <li class="error leaf">Medewerker 4</li>
+                                                <li class="ok">Medewerker 5</li>
+                                            </ul>
+                                        </details>
+                                    </li>
+                                    <li class="ok">
+                                        <details>
+                                            <summary class="ok">Team 1-B-ii</summary>
+                                            <ul>
+                                                <li class="ok">Medewerker 1</li>
+                                                <li class="ok">Medewerker 2</li>
+                                                <li class="ok">Medewerker 3</li>
+                                                <li class="ok">Medewerker 4</li>
+                                                <li class="ok">Medewerker 5</li>
+                                            </ul>
+                                        </details>
+                                    </li>
+                                </ul>
+                            </details>
+                        </li>
+                    </ul>
+                </details>
+            </li>
+        </ul>
+    </div>
+    <div class="compliance_details">
+        <h3>Compliance details for << user >></h3>
+        <h4>Roles</h4>
+        <div class="accordion" id="accordionPanelsStayOpenExample">
+            <div class="accordion-item">
+                <h2 class="accordion-header">
+                    <button class="accordion-button error" type="button" data-bs-toggle="collapse"
+                            data-bs-target="#panelsStayOpen-collapseZero" aria-expanded="true"
+                            aria-controls="panelsStayOpen-collapseZero">
+                        Medewerker
+                    </button>
+                </h2>
+                <div id="panelsStayOpen-collapseZero" class="accordion-collapse collapse show">
+                    <div class="accordion-body">
+                        <ol class="list-group list-group-numbered">
+                            <li class="list-group-item">Introductie Veiligheid</li>
+                            <li class="list-group-item list-group-item-danger">
+                                <a class="link-danger" href="#" data-bs-toggle="modal" data-bs-target="#exampleModal">
+                                    Jaarlijkse ergonomische check
+                                </a>
+                            </li>
+                            <li class="list-group-item">
+                                <a href="#" data-bs-toggle="modal" data-bs-target="#exampleModal">
+                                    Requirement 3
+                                </a>
+                            </li>
+                            <li class="list-group-item">Requirement 4</li>
+                            <li class="list-group-item">Requirement 5</li>
+                        </ol>
+                    </div>
+                </div>
+            </div>
+            <div class="accordion-item">
+                <h2 class="accordion-header">
+                    <button class="accordion-button warning" type="button" data-bs-toggle="collapse"
+                            data-bs-target="#panelsStayOpen-collapseOne" aria-expanded="true"
+                            aria-controls="panelsStayOpen-collapseOne">
+                        Project Medewerker
+                    </button>
+                </h2>
+                <div id="panelsStayOpen-collapseOne" class="accordion-collapse collapse show">
+                    <div class="accordion-body">
+                        <ol class="list-group list-group-numbered">
+                            <li class="list-group-item">
+                                Site Toegang Training
+                            </li>
+                            <li class="list-group-item list-group-item-danger">
+                                <a class="link-danger" href="#" data-bs-toggle="modal" data-bs-target="#exampleModal">
+                                    Requirement 2
+                                </a>
+                            </li>
+                            <li class="list-group-item">
+                                <a href="#" data-bs-toggle="modal" data-bs-target="#exampleModal">
+                                    Requirement 3
+                                </a>
+                            </li>
+                            <li class="list-group-item">Requirement 4</li>
+                            <li class="list-group-item">Requirement 5</li>
+                        </ol>
+                    </div>
+                </div>
+            </div>
+            <div class="accordion-item">
+                <h2 class="accordion-header">
+                    <button class="accordion-button collapsed ok" type="button" data-bs-toggle="collapse"
+                            data-bs-target="#panelsStayOpen-collapseTwo" aria-expanded="false"
+                            aria-controls="panelsStayOpen-collapseTwo">
+                        Leidinggevende (1 of meer medewerkers rapporteren aan u)
+                    </button>
+                </h2>
+                <div id="panelsStayOpen-collapseTwo" class="accordion-collapse collapse">
+                    <div class="accordion-body">
+                        <ol class="list-group list-group-numbered">
+                            <li class="list-group-item">Jaarlijks gesprek met medewerkers over veiligheid ingepland.
+                            </li>
+                            <li class="list-group-item">Veiligheid staat op de agenda van elke vergadering.</li>
+                        </ol>
+                    </div>
+                </div>
+            </div>
+            <div class="accordion-item">
+                <h2 class="accordion-header">
+                    <button class="accordion-button collapsed ok" type="button" data-bs-toggle="collapse"
+                            data-bs-target="#panelsStayOpen-collapseThree" aria-expanded="false"
+                            aria-controls="panelsStayOpen-collapseThree">
+                        Project Eindverantwoordelijke (voor compliance uitvoeringsstandaarden)
+                    </button>
+                </h2>
+                <div id="panelsStayOpen-collapseThree" class="accordion-collapse collapse">
+                    <div class="accordion-body">
+                        <ol class="list-group list-group-numbered">
+                            <li class="list-group-item">Controle systeem in plaats</li>
+                            <li class="list-group-item">Leersysteem in plaats</li>
+                            <li class="list-group-item">Site audit uitgevoerd</li>
+                            <li class="list-group-item">Site audit bevoegd</li>
+                            <li class="list-group-item">Site toegang bevoegd</li>
+                        </ol>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Modal -->
+<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h1 class="modal-title fs-5" id="exampleModalLabel">Jaarlijkse Ergonische check</h1>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                Elk jaar wordt van u gevraagd uw zit houding achter uw bureau te controleren.
+                Hiermee kan RSI en nekklachten voorkomen worden.
+                Klik <a href="#" onclick="alert('Link naar pagina om ergonomische check te voltooien')">hier</a>
+                om de ergonomische check te doen.
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL"
+        crossorigin="anonymous"></script>
+
+</body>
+</html>

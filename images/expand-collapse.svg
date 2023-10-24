@@ -1,0 +1,11 @@
+<?xml version="1.0"?>
+<svg xmlns="http://www.w3.org/2000/svg" width="60" height="20">
+  <g fill="#fff">
+    <path d="m5 9h4v-4h2v4h4v2h-4v4h-2v-4h-4z"/>
+    <path d="m25 9h10v2h-10z"/>
+    <g transform="translate(46,0) rotate(45) ">
+      <path d="m8 0 h4v-4h2v4h4v2h-4v4h-2v-4h-4z"/>
+    </g>
+
+  </g>
+</svg>

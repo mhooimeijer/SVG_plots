@@ -1,0 +1,75 @@
+{
+  "object_type": "user",
+  "user_uuid": "1234567890",
+  "name": "Jan Lange Achternaam",
+  "roles": [
+    {
+      "name": "Medewerker",
+      "requirements": [
+        {
+          "name": "Requirement 1",
+          "description": "Some text that explains the requirement and how to attain it",
+          "status": "valid",
+          "valid-till": "2023-10-30",
+          "link": "link (url) to fulfill of the requirement"
+        },
+        {
+          "name": "Requirement 2",
+          "description": "Some text that explains the requirement and how to attain it",
+          "status": "expired",
+          "valid-till": "2023-09-30",
+          "link": "link (url) to fulfill of the requirement"
+        }
+      ]
+    },
+    {
+      "name": "Project Locatie Medewerker",
+      "requirements": [
+        {
+          "name": "Requirement 1",
+          "description": "Some text that explains the requirement and how to attain it",
+          "status": "",
+          "valid-till": "2023-10-30",
+          "link": "link (url) to fulfill of the requirement"
+        },
+        {
+          "name": "Requirement 2",
+          "description": "Some text that explains the requirement and how to attain it",
+          "status": "",
+          "valid-till": "2023-10-30",
+          "link": "link (url) to fulfill of the requirement"
+        }
+      ]
+    }
+  ],
+  "org-hierarchy": [
+    {
+      "name": "Divisie 1",
+      "manager_uuid": "0987654321",
+      "members": [],
+      "sub_hierarchy": [
+        {
+          "name": "Afdeling A",
+          "manager_uuid": "",
+          "members": [],
+          "sub_hierarchy": [
+            {
+              "name": "Team i",
+              "manager_uuid": "",
+              "members": [
+                "a list of user object types"
+              ]
+            },
+            {
+              "name": "Team ii",
+              "manager_uuid": "",
+              "members": [
+                "a list of user object types"
+              ]
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

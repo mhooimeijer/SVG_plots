@@ -1,0 +1,465 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Test Tree View</title>
+    <style>
+
+        ul,
+        li {
+            list-style: none;
+            margin: 0;
+            padding: 0
+        }
+        label{font-weight:normal}
+        /*Tree*/
+
+        .trees {
+            margin-left: 10px;
+        }
+
+        .trees li {
+            border-left: dotted 1px #bcbec0;
+            padding: 1px 0 1px 25px;
+            position: relative
+        }
+
+        .trees li > label {
+            position: relative;
+            left: -11px
+        }
+
+        .trees li:before {
+            content: "";
+            width: 13px;
+            height: 1px;
+            border-bottom: dotted 1px #bcbec0;
+            position: absolute;
+            top: 10px;
+            left: 0
+        }
+        .trees input {
+            /*display: none;*/
+        }
+        .trees li:last-child:after {
+            content: "";
+            position: absolute;
+            width: 2px;
+            height: 13px;
+            background: #fff;
+            left: -1px;
+            bottom: 0px;
+        }
+
+        .trees li input {
+            margin-right: 5px;
+            margin-left: 5px
+        }
+
+        .trees li.has-child > ul {
+            display: none
+        }
+
+        .trees li.has-child > input {
+            opacity: 0;
+            position: absolute;
+            left: -14px;
+            z-index: 9999;
+            width: 22px;
+            height: 22px;
+            top: -5px
+        }
+
+        .trees li.has-child > input + .tree-control {
+            position: absolute;
+            left: -4px;
+            top: 6px;
+            width: 8px;
+            height: 8px;
+            line-height: 8px;
+            z-index: 2;
+            display: inline-block;
+            color: #fff;
+            border-radius: 3px;
+        }
+
+        .trees li.has-child > input + .tree-control:after {
+            font-family: 'FontAwesome';
+            content: "";
+            font-size: 8px;
+            color: #183955;
+            position: absolute;
+            left: 1px
+        }
+
+        .trees li.has-child > input:checked + .tree-control:after {
+            font-family: 'FontAwesome';
+            content: "";
+            font-size: 8px;
+            color: #183955;
+            position: absolute;
+            left: 1px
+        }
+
+        .trees li.has-child > input:checked ~ ul {
+            display: block
+        }
+
+        .trees ul li.has-child:last-child {
+            border-left: none
+        }
+
+        .trees ul li.has-child:nth-last-child(2):after {
+            content: "";
+            width: 1px;
+            height: 5px;
+            border-left: dotted 1px #bcbec0;
+            position: absolute;
+            bottom: -5px;
+            left: -1px
+        }
+
+        .tree-alt li {
+            padding: 4px 0
+        }
+        /* Remove default bullets */
+        ul, #myUL {
+            list-style-type: none;
+        }
+
+        /* Remove margins and padding from the parent ul */
+        #myUL {
+            /*margin: 0;*/
+            /*padding: 0;*/
+        }
+
+        /* Style the caret/arrow */
+        .caret {
+            cursor: pointer;
+            user-select: none; /* Prevent text selection */
+        }
+
+        /* Create the caret/arrow with a unicode, and style it */
+        .caret::before {
+            content: "\25B6";
+            color: black;
+            display: inline-block;
+            margin-right: 6px;
+        }
+        .leaf-node::before {
+            content: "\25AA";
+            display: inline-block;
+            color: black;
+            display: inline-block;
+            margin-right: 6px;
+        }
+        .error-node::before {
+            content: url('/images/error2.png');
+            display: inline-block;
+            width: 15px;
+            height: 15px;
+            right: 5px;
+        }
+        .ok-node::before {
+            content: url('/images/ok.png');
+            display: inline-block;
+            width: 15px;
+            height: 15px;
+            right: 5px;
+        }
+        .warning::before {
+            content: url('/images/warning2.png');
+            /*transform: scale(.5);*/
+            display: inline-block;
+            /*width: 15px;*/
+            /*height: 15px;*/
+            padding-right: 5px;
+        }
+        .ok-node::before {
+            content: url('/images/ok.png');
+            display: inline-block;
+            width: 15px;
+            height: 15px;
+            right: 5px;
+        }
+        /* Rotate the caret/arrow icon when clicked on (using JavaScript) */
+        .caret-down::before {
+            transform: rotate(90deg);
+        }
+
+        /* Hide the nested list */
+        .nested {
+            display: none;
+        }
+
+        /* Show the nested list when the user clicks on the caret/arrow (with JavaScript) */
+        .active {
+            display: block;
+        }
+    </style>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.8.1/font/bootstrap-icons.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jstree/3.2.1/themes/default/style.min.css"/>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/1.12.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jstree/3.2.1/jstree.min.js"></script>
+    <link id="themecss" rel="stylesheet" type="text/css" href="//www.shieldui.com/shared/components/latest/css/light/all.min.css" />
+<!--    <script type="text/javascript" src="//www.shieldui.com/shared/components/latest/js/jquery-1.11.1.min.js"></script>-->
+    <script type="text/javascript" src="//www.shieldui.com/shared/components/latest/js/shieldui-all.min.js"></script>
+</head>
+<body>
+<div id="jstree">
+    <!-- in this example the tree is populated from inline HTML -->
+    <ul>
+        <li data-jstree='{"icon":"//localhost/images/error2.png"}'>Persoonlijke Compliance</li>
+        <li data-jstree='{"opened":true,"selected":false}'>Divisie
+            <ul>
+                <li data-jstree='{"icon":"//localhost/images/ok2.png"}'>Afdeling 1
+                    <ul>
+                        <li>Team 1</li>
+                        <li>Team 2</li>
+                        <li>Team 3</li>
+                    </ul>
+                </li>
+                <li data-jstree='{"icon":"//localhost/images/error2.png"}' id="child_node_1">Afdeling 2
+                    <ul>
+                        <li>Team 1</li>
+                        <li>Team 2</li>
+                        <li>Team 3</li>
+                    </ul>
+                </li>
+                <li data-jstree='{"icon":"//localhost/images/ok.png"}'>Afdeling 3
+                    <ul>
+                        <li>Team 1</li>
+                        <li>Team 2</li>
+                        <li>Team 3</li>
+                    </ul>
+                </li>
+            </ul>
+        </li>
+    </ul>
+</div>
+
+
+<ul id="myUL">
+    <li><span class="warning">Persoonlijke compliance</span></li>
+    <li><span class="caret caret-down"><span class="error-node"></span> Division</span>
+        <ul class="nested active">
+            <li><span class="caret caret-down"> <span class="error-node"></span> Department 1</span>
+                <ul class="nested active">
+                    <li>Team 1</li>
+                    <li>Team 2</li>
+                    <li>Team 3</li>
+                    <li>Team 4</li>
+                </ul>
+            </li>
+            <li><i class="bi bi-check" style="font-size: 1.2rem;color: green"></i>Coffee</li>
+            <li><span class="caret">Tea</span>
+                <ul class="nested">
+                    <li>Black Tea</li>
+                    <li>White Tea</li>
+                    <li><span class="caret"><i class="bi bi-exclamation-circle-fill" style="font-size: 1.2rem;color: orange"></i> Green Tea</span>
+                        <ul class="nested">
+                            <li>Sencha</li>
+                            <li>Gyokuro</li>
+                            <li>Matcha</li>
+                            <li>Pi Lo Chun</li>
+                        </ul>
+                    </li>
+                </ul>
+            </li>
+        </ul>
+    </li>
+</ul>
+
+<div class="tree-box box-border">
+    <ul class="trees">
+        <li class="has-child">
+            <input id="tree-controll1" type="checkbox" checked><span class="tree-control"></span>
+            <label>
+
+                <i class="fa fa-desktop light-blue"></i> Portail Gestionnaire main d'oeuvre (RPOP)
+            </label>
+            <ul>
+                <li class="has-child">
+                    <input type="checkbox" checked><span class="tree-control"></span>
+                    <label>
+                        <input type="checkbox" />
+                        <i class="fa fa-tasks orange"></i> Administration des accès
+                    </label>
+                    <ul>
+                        <li>
+                            <label>
+                                <input type="checkbox" />
+                                <i class="fa fa-file "></i> Gérer les profils
+                            </label>
+                        </li>
+                        <li>
+                            <label>
+                                <input type="checkbox" checked/>
+                                <i class="fa fa-file "></i> Gérer les modules
+                            </label>
+                        </li>
+                        <li>
+                            <label>
+                                <input type="checkbox" checked/>
+                                <i class="fa fa-file "></i> Gérer les délégations
+                            </label>
+                        </li>
+                        <li>
+                            <label>
+                                <input type="checkbox" />
+                                <i class="fa fa-file "></i> Gérer les utilisateurs
+                            </label>
+                        </li>
+                        <li>
+                            <label>
+                                <input type="checkbox" checked/>
+                                <i class="fa fa-file "></i> Déclarer les PO
+                            </label>
+                        </li>
+
+                    </ul>
+                </li>
+
+                <li class="has-child">
+                    <input type="checkbox" checked><span class="tree-control"></span>
+                    <label>
+                        <input type="checkbox" />
+                        <i class="fa fa-tasks orange"></i> Gestion opérationnelle du périmètre
+                    </label>
+                    <ul>
+                        <li>
+                            <label>
+                                <input type="checkbox" />
+                                <i class="fa fa-file "></i> Gérer les PO
+                            </label>
+                        </li>
+                        <li>
+                            <label>
+                                <input type="checkbox" checked/>
+                                <i class="fa fa-file "></i> Gérer les favoris
+                            </label>
+                        </li>
+                        <li>
+                            <label>
+                                <input type="checkbox" checked/>
+                                <i class="fa fa-file "></i> Fiche du PO
+                            </label>
+                        </li>
+
+                    </ul>
+                </li>
+            </ul>
+        </li>
+        <li class="has-child">
+            <input id="tree-controll2" type="checkbox" checked><span class="tree-control"></span>
+            <label>
+                <input type="checkbox" />
+                <i class="fa fa-desktop light-blue"></i> Portail Gestionnaire main d'oeuvre (RPOP)
+            </label>
+            <ul>
+                <li class="has-child">
+                    <input type="checkbox" checked><span class="tree-control"></span>
+                    <label>
+                        <input type="checkbox" />
+                        <i class="fa fa-tasks orange"></i> Administration des accès
+                    </label>
+                    <ul>
+                        <li>
+                            <label>
+                                <input type="checkbox" />
+                                <i class="fa fa-file "></i> Gérer les profils
+                            </label>
+                        </li>
+                        <li>
+                            <label>
+                                <input type="checkbox" checked/>
+                                <i class="fa fa-file "></i> Gérer les modules
+                            </label>
+                        </li>
+                        <li>
+                            <label>
+                                <input type="checkbox" checked/>
+                                <i class="fa fa-file "></i> Gérer les délégations
+                            </label>
+                        </li>
+                        <li>
+                            <label>
+                                <input type="checkbox" />
+                                <i class="fa fa-file "></i> Gérer les utilisateurs
+                            </label>
+                        </li>
+                        <li>
+                            <label>
+                                <input type="checkbox" checked/>
+                                <i class="fa fa-file "></i> Déclarer les PO
+                            </label>
+                        </li>
+
+                    </ul>
+                </li>
+
+                <li class="has-child">
+                    <input type="checkbox" checked><span class="tree-control"></span>
+                    <label>
+                        <input type="checkbox" />
+                        <i class="fa fa-tasks orange"></i> Gestion opérationnelle du périmètre
+                    </label>
+                    <ul>
+                        <li>
+                            <label>
+                                <input type="checkbox" />
+                                <i class="fa fa-file "></i> Gérer les PO
+                            </label>
+                        </li>
+                        <li>
+                            <label>
+                                <input type="checkbox" checked/>
+                                <i class="fa fa-file "></i> Gérer les favoris
+                            </label>
+                        </li>
+                        <li>
+                            <label>
+                                <input type="checkbox" checked/>
+                                <i class="fa fa-file "></i> Fiche du PO
+                            </label>
+                        </li>
+
+                    </ul>
+                </li>
+            </ul>
+        </li>
+    </ul>
+</div>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" crossorigin="anonymous"></script>
+
+</body>
+
+<script>
+    $(function () {
+        // 6 create an instance when the DOM is ready
+        $('#jstree').jstree();
+        // 7 bind to events triggered on the tree
+        $('#jstree').on("changed.jstree", function (e, data) {
+            console.log(data.selected);
+        });
+        // 8 interact with the tree - either way is OK
+        $('button').on('click', function () {
+            $('#jstree').jstree(true).select_node('child_node_1');
+            $('#jstree').jstree('select_node', 'child_node_1');
+            $.jstree.reference('#jstree').select_node('child_node_1');
+        });
+    });
+</script>
+<script>
+    var toggler = document.getElementsByClassName("caret");
+    var i;
+
+    for (i = 0; i < toggler.length; i++) {
+        toggler[i].addEventListener("click", function () {
+            this.parentElement.querySelector(".nested").classList.toggle("active");
+            this.classList.toggle("caret-down");
+        });
+    }
+</script>
+</html>
